@@ -1,0 +1,178 @@
+{
+  "name": "Monogame Sokobon",
+  "ogmoVersion": "3.4.0",
+  "levelPaths": ["."],
+  "backgroundColor": "#282c34ff",
+  "gridColor": "#3c4049cc",
+  "anglesRadians": true,
+  "directoryDepth": 5,
+  "layerGridDefaultSize": {"x": 3, "y": 3},
+  "levelDefaultSize": {"x": 320, "y": 240},
+  "levelMinSize": {"x": 3, "y": 3},
+  "levelMaxSize": {"x": 9, "y": 9},
+  "levelValues": [],
+  "defaultExportMode": ".json",
+  "compactExport": false,
+  "externalScript": "",
+  "playCommand": "",
+  "entityTags": [],
+  "layers": [
+    {
+      "definition": "entity",
+      "name": "Game",
+      "gridSize": {"x": 1, "y": 1},
+      "exportID": "27973635",
+      "requiredTags": [],
+      "excludedTags": []
+    }
+  ],
+  "entities": [
+    {
+      "exportID": "27976916",
+      "name": "Goal",
+      "limit": -1,
+      "size": {"x": 1, "y": 1},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#12ff00ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 1, "y": 1},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": [],
+      "values": []
+    },
+    {
+      "exportID": "27978789",
+      "name": "Box",
+      "limit": -1,
+      "size": {"x": 1, "y": 1},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#c36565ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 1, "y": 1},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": [],
+      "values": []
+    },
+    {
+      "exportID": "27981779",
+      "name": "Wall",
+      "limit": -1,
+      "size": {"x": 1, "y": 1},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#000000ff",
+      "tileX": true,
+      "tileY": true,
+      "tileSize": {"x": 1, "y": 1},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": [],
+      "values": []
+    },
+    {
+      "exportID": "28006793",
+      "name": "Player",
+      "limit": 1,
+      "size": {"x": 1, "y": 1},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#ff0000ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 1, "y": 1},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": [],
+      "values": []
+    }
+  ],
+  "tilesets": [
+    {"label": "Walls", "path": "../../../../../Pictures/Screenshot from 2021-05-17 21-45-59.png", "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFIAAABUCAYAAAARdWCGAAAABHNCSVQICAgIfAhkiAAAABl0RVh0U29mdHdhcmUAZ25vbWUtc2NyZWVuc2hvdO8Dvz4AAADSSURBVHic7dCBCQAhEMCw0/13/h/CgiDJBKVrZr7h2L4d8AojI0ZGjIwYGTEyYmTEyIiRESMjRkaMjBgZMTJiZMTIiJERIyNGRoyMGBkxMmJkxMiIkREjI0ZGjIwYGTEyYmTEyIiRESMjRkaMjBgZMTJiZMTIiJERIyNGRoyMGBkxMmJkxMiIkREjI0ZGjIwYGTEyYmTEyIiRESMjRkaMjBgZMTJiZMTIiJERIyNGRoyMGBkxMmJkxMiIkREjI0ZGjIwYGTEyYmTEyIiRESMjRkZ+ZHUBp1Udn/IAAAAASUVORK5CYII=", "tileWidth": 70, "tileHeight": 70, "tileSeparationX": 0, "tileSeparationY": 0, "tileMarginX": 1, "tileMarginY": 1}
+  ]
+}

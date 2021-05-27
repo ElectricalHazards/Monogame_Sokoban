@@ -123,9 +123,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                         for(int x = 0; x < board[f,z].GetLength(1); x++){
                             if(x!=0&&x!=2)
                                 continue;
-                            if(z==0)
-                                continue;
-                            while(doesNedSpaceRight(board[f,z-1]).Contains(invert(x))&&board[f,z][y,x]!=0){
+                            while(f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
                                 board[f,z] = createOne3x3();
                             }
                         }

@@ -169,8 +169,9 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             return list;
         }
         static bool hasValidSpaceRight(int[,] matrix, List<int> area){
-            List<int> whiteSpace = invertList(area.ToArray());
-            for(int i = 0; i < matrix.GetLength(0); i++){
+            List<int> whiteSpace = invertList(invertList(area.ToArray()).ToArray());
+            //for(int i = 0; i < matrix.GetLength(0); i++){
+            foreach (int i in whiteSpace){
                 if(matrix[0,i]==1){
                     return false;
                 }
@@ -184,15 +185,19 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                 if(equalsMany(i,new int[]{4,7,8})){
                     list.Add(it/3);
                 }
+                Console.Write(i+" ");
+                if(it%3==0){
+                    Console.WriteLine("");
+                }
                 it++;
             }
-
             return list;
         }
         static bool hasValidSpaceLeft(int[,] matrix, List<int> area){
-            List<int> whiteSpace = invertList(area.ToArray());
-            for(int i = 0; i < matrix.GetLength(0); i++){
-                if(matrix[0,i]==1){
+            List<int> whiteSpace = invertList(invertList(area.ToArray()).ToArray());
+            foreach (int i in whiteSpace)
+            {
+                if(matrix[2,i]==1){
                     return false;
                 }
             }
@@ -233,7 +238,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             }
             //lev = RotateMatrixClockwise(lev, 3);
             for(int i = 0; i < rand.Next(0,4); i++){
-                lev = RotateMatrixClockwise(lev, 3);
+                //lev = RotateMatrixClockwise(lev, 3);
             }
             
             return lev;

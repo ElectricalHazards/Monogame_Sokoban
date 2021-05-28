@@ -123,8 +123,13 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                         for(int x = 0; x < board[f,z].GetLength(1); x++){
                             if(x!=0&&x!=2)
                                 continue;
-                            while(f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
+                            int counter = 0;
+                            while(f!=0&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))){//f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
                                 board[f,z] = createOne3x3();
+                                if(counter>test.Length*3){
+                                    board[f-1,z] = createOne3x3();
+                                }
+                                counter++;
                             }
                         }
                     }
@@ -138,8 +143,11 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                             if(x == 1){
                                 list.Add(new Entity("Wall",y+(f*3),i+(z*3)));
                             }
-                            else if(x!=0){
+                            else if(x==2||x==6||x==9){
                                 list.Add(new Entity("Box",y+(f*3),i+(z*3)));
+                            }
+                            else if(x==4||x==7||x==8){
+                                list.Add(new Entity("Goal",y+(f*3),i+(z*3)));
                             }
                         }
                     }   
@@ -160,11 +168,35 @@ namespace Monogame_Sokobon.LevelThings.Procedural
 
             return list;
         }
-        static List<int> doesNeedSPaceLeft(int[] matrix){
+        static bool hasValidSpaceRight(int[,] matrix, List<int> area){
+            List<int> whiteSpace = invertList(area.ToArray());
+            for(int i = 0; i < matrix.GetLength(0); i++){
+                if(matrix[0,i]==1){
+                    return false;
+                }
+            }
+            return true;
+        }
+        static List<int> doesNeedSPaceLeft(int[,] matrix){
             List<int> list = new List<int>();
-
+            int it = 0;
+            foreach(int i in matrix){
+                if(equalsMany(i,new int[]{4,7,8})){
+                    list.Add(it/3);
+                }
+                it++;
+            }
 
             return list;
+        }
+        static bool hasValidSpaceLeft(int[,] matrix, List<int> area){
+            List<int> whiteSpace = invertList(area.ToArray());
+            for(int i = 0; i < matrix.GetLength(0); i++){
+                if(matrix[0,i]==1){
+                    return false;
+                }
+            }
+            return true;
         }
         static bool equalsMany(int item, int[] many){
             foreach(int i in many){
@@ -277,6 +309,13 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                 default:
                     return -1;
             }
+        }
+        static List<int> invertList(int[] list){
+            List<int> lysp = new List<int>();
+            foreach(int i in list){
+                lysp.Add(invert(i));
+            }
+            return lysp;
         }
         
     }

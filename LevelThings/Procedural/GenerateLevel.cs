@@ -94,7 +94,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
 
         public List<Entity> genBoard(int width, int height){
             List<Entity> list = new List<Entity>();
-            Dictionary<Vector2,List<Vector2>> previouslyPlaced = new Dictionary<Vector2, List<Vector2>>();
+            //Dictionary<Vector2,List<Vector2>> previouslyPlaced = new Dictionary<Vector2, List<Vector2>>();
             int [,][,] board = new int[height,width][,];
             for(int f = 0; f < board.GetLength(0); f++){
                 for(int z = 0; z < board.GetLength(1); z++){
@@ -134,7 +134,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                         }
                     }
                 }
-            }  
+            }
             for(int f = 0; f < board.GetLength(0); f++){
                 for(int z = 0; z < board.GetLength(1); z++){
                     for(int i = 0; i<board[f,z].GetLength(0); i++){
@@ -238,7 +238,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             }
             //lev = RotateMatrixClockwise(lev, 3);
             for(int i = 0; i < rand.Next(0,4); i++){
-                //lev = RotateMatrixClockwise(lev, 3);
+                //5lev = RotateMatrixClockwise(lev, 3);
             }
             
             return lev;

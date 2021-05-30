@@ -124,10 +124,32 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                             if(x!=0&&x!=2)
                                 continue;
                             int counter = 0;
-                            while(f!=0&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))){//f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
+                            //Check right space == hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))
+                            //Check left space == hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z]))
+                            //Check top space == hasValidSpaceUp(board[f-1,z],doesNeedSPaceUp(board[f,z]))
+                            //Check below space == hasValidSpaceDown(board[f-1,z],doesNeedSPaceDown(board[f,z]))
+                            //Top left corner == Completely ignored
+                            ////Top middle == (f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{8,3,2})
+                            ////Top right == (f==width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{4,7,8,3,2})
+                            ////Mid left == (f==0&&z!=0&&z!=height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,9})
+                            ////Mid mid == (f!=0&&f!=width-1&&z=!0&&z!=height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))
+                            ////Mid right == (f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{2,6,9})
+                            ////Bot left == (f==0&&z==height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,7,9,5})
+                            ////Bot mid == (f!=0&&f!=width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9})
+                            //Bot right == (f==witdh-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9,2,6})
+
+                            //while((f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))){//f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
+                            while(((f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{8,3,2}))&&
+                            ((f==width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{4,7,8,3,2}))&&
+                            ((f==0&&z!=0&&z!=height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,9}))&&
+                            ((f!=0&&f!=width-1&&z!=0&&z!=height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))))&&
+                            ((f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{2,6,9}))&&
+                            ((f==0&&z==height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,7,9,5}))&&
+                            ((f!=0&&f!=width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9}))&&
+                            ((f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9,2,6}))){
                                 board[f,z] = createOne3x3();
-                                if(counter>test.Length*3){
-                                    board[f-1,z] = createOne3x3();
+                                if(counter>test.Length*4){
+                                   // board[f-1,z] = createOne3x3();
                                 }
                                 counter++;
                             }
@@ -143,12 +165,12 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                             if(x == 1){
                                 list.Add(new Entity("Wall",y+(f*3),i+(z*3)));
                             }
-                            else if(x==2||x==6||x==9){
+                            else if(x!=0){
                                 list.Add(new Entity("Box",y+(f*3),i+(z*3)));
                             }
-                            else if(x==4||x==7||x==8){
-                                list.Add(new Entity("Goal",y+(f*3),i+(z*3)));
-                            }
+                            //else if(x==4||x==7||x==8){
+                             //   list.Add(new Entity("Goal",y+(f*3),i+(z*3)));
+                            //}
                         }
                     }   
                 }
@@ -158,12 +180,12 @@ namespace Monogame_Sokobon.LevelThings.Procedural
 
         static List<int> doesNedSpaceRight(int[,] matrix){
             List<int> list = new List<int>();
-            int it = 0;
-            foreach(int i in matrix){
-                if(equalsMany(i,new int[]{2,6,9})){
-                    list.Add(it/3);
+            for(int x = 0; x < matrix.GetLength(0); x++){
+                for(int y = 0; y < matrix.GetLength(1); y++){
+                    if(equalsMany(matrix[y,x],new int[]{2,6,9})){
+                        list.Add(x);
+                    }
                 }
-                it++;
             }
 
             return list;
@@ -180,16 +202,14 @@ namespace Monogame_Sokobon.LevelThings.Procedural
         }
         static List<int> doesNeedSPaceLeft(int[,] matrix){
             List<int> list = new List<int>();
-            int it = 0;
-            foreach(int i in matrix){
-                if(equalsMany(i,new int[]{4,7,8})){
-                    list.Add(it/3);
+            //foreach(int i in matrix){
+            for(int x = 0; x < matrix.GetLength(0); x++){
+                for(int y = 0; y < matrix.GetLength(1); y++){
+                    if(equalsMany(matrix[y,x],new int[]{4,7,8})){
+                        list.Add(x);
+                    }
+
                 }
-                Console.Write(i+" ");
-                if(it%3==0){
-                    Console.WriteLine("");
-                }
-                it++;
             }
             return list;
         }
@@ -198,6 +218,53 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             foreach (int i in whiteSpace)
             {
                 if(matrix[2,i]==1){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        static List<int> doesNeedSPaceUp(int[,] matrix){
+            List<int> list = new List<int>();
+            //foreach(int i in matrix){
+            for(int x = 0; x < matrix.GetLength(0); x++){
+                for(int y = 0; y < matrix.GetLength(1); y++){
+                    if(equalsMany(matrix[y,x],new int[]{2,6,8})){
+                        list.Add(y);
+                    }
+
+                }
+            }
+            return list;
+        }
+        static bool hasValidSpaceUp(int[,] matrix, List<int> area){
+            List<int> whiteSpace = invertList(invertList(area.ToArray()).ToArray());
+            foreach (int i in whiteSpace)
+            {
+                if(matrix[i,0]==1){
+                    return false;
+                }
+            }
+            return true;
+        }
+        static List<int> doesNeedSPaceDown(int[,] matrix){
+            List<int> list = new List<int>();
+            //foreach(int i in matrix){
+            for(int x = 0; x < matrix.GetLength(0); x++){
+                for(int y = 0; y < matrix.GetLength(1); y++){
+                    if(equalsMany(matrix[y,x],new int[]{5,7,9})){
+                        list.Add(y);
+                    }
+
+                }
+            }
+            return list;
+        }
+        static bool hasValidSpaceDown(int[,] matrix, List<int> area){
+            List<int> whiteSpace = invertList(invertList(area.ToArray()).ToArray());
+            foreach (int i in whiteSpace)
+            {
+                if(matrix[i,2]==1){
                     return false;
                 }
             }

@@ -16,6 +16,9 @@
 #begin Levels/3x3Level.json
 /copy:Levels/3x3Level.json
 
+#begin Levels/Cringe.json
+/copy:Levels/Cringe.json
+
 #begin Levels/TestLevel.json
 /copy:Levels/TestLevel.json
 

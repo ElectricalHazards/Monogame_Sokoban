@@ -1,0 +1,28 @@
+{
+  "ogmoVersion": "3.4.0",
+  "width": 10,
+  "height": 10,
+  "offsetX": 0,
+  "offsetY": 0,
+  "layers": [
+    {
+      "name": "Game",
+      "_eid": "27973635",
+      "offsetX": 0,
+      "offsetY": 0,
+      "gridCellWidth": 1,
+      "gridCellHeight": 1,
+      "gridCellsX": 10,
+      "gridCellsY": 10,
+      "entities": [
+        {"name": "Wall", "id": 0, "_eid": "27981779", "x": 5, "y": 1, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 1, "_eid": "27981779", "x": 5, "y": 2, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 2, "_eid": "27981779", "x": 5, "y": 3, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 3, "_eid": "27981779", "x": 5, "y": 4, "originX": 0, "originY": 0},
+        {"name": "Goal", "id": 4, "_eid": "27976916", "x": 7, "y": 1, "originX": 0, "originY": 0},
+        {"name": "Box", "id": 5, "_eid": "27978789", "x": 2, "y": 2, "originX": 0, "originY": 0},
+        {"name": "Player", "id": 6, "_eid": "28006793", "x": 8, "y": 8, "originX": 0, "originY": 0}
+      ]
+    }
+  ]
+}

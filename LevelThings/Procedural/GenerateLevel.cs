@@ -6,8 +6,8 @@ namespace Monogame_Sokobon.LevelThings.Procedural
     public class GenerateLevel{
         public LevelData createLevel(){
             Random rand = new Random();
-            int width = rand.Next(2,4);
-            int height = rand.Next(2,4);
+            int width = rand.Next(2,4); //Only bit of code in this whole project that counts starting at 1....
+            int height = rand.Next(2,4);//Only bit of code in this whole project that counts starting at 1....
             return new LevelData(width*3, height*3, new List<LayersDum>(){new LayersDum(genBoard(width, height))});
         }
         
@@ -123,35 +123,44 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                         for(int x = 0; x < board[f,z].GetLength(1); x++){
                             if(x!=0&&x!=2)
                                 continue;
-                            int counter = 0;
-                            //Check right space == hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))
-                            //Check left space == hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z]))
-                            //Check top space == hasValidSpaceUp(board[f-1,z],doesNeedSPaceUp(board[f,z]))
-                            //Check below space == hasValidSpaceDown(board[f-1,z],doesNeedSPaceDown(board[f,z]))
-                            //Top left corner == Completely ignored
-                            ////Top middle == (f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{8,3,2})
-                            ////Top right == (f==width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{4,7,8,3,2})
-                            ////Mid left == (f==0&&z!=0&&z!=height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,9})
-                            ////Mid mid == (f!=0&&f!=width-1&&z=!0&&z!=height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))
-                            ////Mid right == (f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{2,6,9})
-                            ////Bot left == (f==0&&z==height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,7,9,5})
-                            ////Bot mid == (f!=0&&f!=width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9})
-                            //Bot right == (f==witdh-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9,2,6})
+                            /*Cleaning up a scarry amount of comments*/
+                            if (false) {
+                                //Check right space == hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))
+                                //Check left space == hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z]))
+                                //Check top space == hasValidSpaceUp(board[f-1,z],doesNeedSPaceUp(board[f,z]))
+                                //Check below space == hasValidSpaceDown(board[f-1,z],doesNeedSPaceDown(board[f,z]))
+                                //Top left corner == Completely ignored
+                                ////Top middle == (f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{8,3,2})
+                                ////Top right == (f==width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{4,7,8,3,2})
+                                ////Mid left == (f==0&&z!=0&&z!=height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,9})
+                                ////Mid mid == (f!=0&&f!=width-1&&z=!0&&z!=height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))
+                                ////Mid right == (f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{2,6,9})
+                                ////Bot left == (f==0&&z==height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,7,9,5})
+                                ////Bot mid == (f!=0&&f!=width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9})
+                                //Bot right == (f==witdh-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9,2,6})
 
-                            //while((f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))){//f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
-                            while(((f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{8,3,2}))&&
-                            ((f==width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{4,7,8,3,2}))&&
-                            ((f==0&&z!=0&&z!=height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,9}))&&
-                            ((f!=0&&f!=width-1&&z!=0&&z!=height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))))&&
-                            ((f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{2,6,9}))&&
-                            ((f==0&&z==height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,7,9,5}))&&
-                            ((f!=0&&f!=width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9}))&&
-                            ((f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9,2,6}))){
-                                board[f,z] = createOne3x3();
-                                if(counter>test.Length*4){
-                                   // board[f-1,z] = createOne3x3();
+                                //while((f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))){//f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
+                            }
+
+                            if (f == 0&& z != 0) {
+                                while (!(hasValidSpaceUp(board[f,z-1],doesNeedSPaceUp(board[f,z]))&&hasValidSpaceDown(board[f,z],doesNeedSPaceDown(board[f,z-1])) )|| contains(board[f, z], getInvalidEdges(f, z, width, height))){ 
+                                    board[f, z] = createOne3x3();
                                 }
-                                counter++;
+                            }
+                            else if (z == 0 && f != 0) {
+                                while (!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&& hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z]))) || contains(board[f, z], getInvalidEdges(f, z, width, height))) {
+                                    board[f, z] = createOne3x3();
+                                }
+                            }
+                            else if (f == 0 && z == 0) {
+                                while (contains(board[f, z], getInvalidEdges(f, z, width, height))) {
+                                    board[f, z] = createOne3x3();
+                                }
+                            }
+                            else {
+                                while (!(hasValidSpaceUp(board[f, z - 1], doesNeedSPaceUp(board[f, z])) && hasValidSpaceDown(board[f, z], doesNeedSPaceDown(board[f, z - 1]))&& hasValidSpaceRight(board[f, z], doesNedSpaceRight(board[f - 1, z])) && hasValidSpaceLeft(board[f - 1, z], doesNeedSPaceLeft(board[f, z]))) || contains(board[f, z], getInvalidEdges(f, z, width, height))) {
+                                    board[f, z] = createOne3x3();
+                                }
                             }
                         }
                     }
@@ -165,8 +174,8 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                             if(x == 1){
                                 list.Add(new Entity("Wall",y+(f*3),i+(z*3)));
                             }
-                            else if(x!=0){
-                                list.Add(new Entity("Box",y+(f*3),i+(z*3)));
+                            else if(x==0){
+                                list.Add(new Entity("Player",y+(f*3),i+(z*3)));
                             }
                             //else if(x==4||x==7||x==8){
                              //   list.Add(new Entity("Goal",y+(f*3),i+(z*3)));
@@ -177,6 +186,71 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             }
             return list;
         }
+        //|
+        //|
+        //|
+        //
+        //2 UP, RIGHT, UP&RIGHT
+        //3 UP
+        //4 LEFT
+        //5 DOWN
+        //6 RIGHT
+        //7 DOWN, LEFT, DOWN&LEFT
+        //8 UP, LEFT, UP&LEFT
+        //9 DOWN, RIGHT, DOWN&RIGHT
+
+
+
+        static int[] getInvalidEdges(int x, int y, int height, int width){
+            List<int> pain = new List<int>();
+            switch (x)
+            {
+                case 0:
+                    pain.Add(4);
+                    pain.Add(7);
+                    pain.Add(8);
+                    break;
+                case 1:
+                    if (width==2) {
+                        //2,6,9
+                        pain.Add(2);
+                        pain.Add(6);
+                        pain.Add(9);
+                    }
+                    break;
+                case 2:
+                    pain.Add(2);
+                    pain.Add(6);
+                    pain.Add(9);
+                    break;
+
+            }
+            switch (y)
+            {
+                case 0:
+                    //2,3,8
+                    pain.Add(2);
+                    pain.Add(3);
+                    pain.Add(8);
+                    break;
+                case 1:
+                    if (height == 2) {
+                        //5,7,9
+                        pain.Add(5);
+                        pain.Add(7);
+                        pain.Add(9);
+                    }
+                    break;
+                case 2:
+                    pain.Add(5);
+                    pain.Add(7);
+                    pain.Add(9);
+                    break;
+            }
+            return pain.ToArray();
+        }
+
+
 
         static List<int> doesNedSpaceRight(int[,] matrix){
             List<int> list = new List<int>();
@@ -229,7 +303,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             //foreach(int i in matrix){
             for(int x = 0; x < matrix.GetLength(0); x++){
                 for(int y = 0; y < matrix.GetLength(1); y++){
-                    if(equalsMany(matrix[y,x],new int[]{2,6,8})){
+                    if(equalsMany(matrix[y,x],new int[]{2,3,8})){
                         list.Add(y);
                     }
 
@@ -241,7 +315,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             List<int> whiteSpace = invertList(invertList(area.ToArray()).ToArray());
             foreach (int i in whiteSpace)
             {
-                if(matrix[i,0]==1){
+                if(matrix[i,2]==1){
                     return false;
                 }
             }
@@ -264,7 +338,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             List<int> whiteSpace = invertList(invertList(area.ToArray()).ToArray());
             foreach (int i in whiteSpace)
             {
-                if(matrix[i,2]==1){
+                if(matrix[i,0]==1){
                     return false;
                 }
             }
@@ -305,7 +379,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             }
             //lev = RotateMatrixClockwise(lev, 3);
             for(int i = 0; i < rand.Next(0,4); i++){
-                //5lev = RotateMatrixClockwise(lev, 3);
+                lev = RotateMatrixClockwise(lev, 3);
             }
             
             return lev;

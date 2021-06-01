@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "TNlhcyzEd0jUtMJL9UD/NbCPPEj3Z6PBD12mAd9CigjLE/ePyqnX8aduWyb9SSmKlunzH05gbkHpAPixFV95uA==",
+  "dgSpecHash": "jKI0JflIdKJ3B/nJt+7idQQi+RD0P+TsLZjxGy9Oviy15uNalnMItqCN2DeFPPDzZPzfGvnrMPeP82VhkZjNhQ==",
   "success": true,
-  "projectFilePath": "/home/rgarr/Programming/C#/Monogame_Sokobon/Monogame_Sokobon.csproj",
+  "projectFilePath": "C:\\Users\\rgarr\\Documents\\Programming\\Monogame_Sokobon\\Monogame_Sokobon.csproj",
   "expectedPackageFiles": [
-    "/home/rgarr/.nuget/packages/monogame.content.builder.task/3.8.0.1641/monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
-    "/home/rgarr/.nuget/packages/monogame.framework.desktopgl/3.8.0.1641/monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+    "C:\\Users\\rgarr\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\rgarr\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
   ],
   "logs": []
 }

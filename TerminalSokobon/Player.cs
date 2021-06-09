@@ -22,12 +22,14 @@ namespace Monogame_Sokobon.TerminalSokobon{
                     if(Board.board[(int)position.X+1,(int)position.Y]==0||Board.board[(int)position.X+1,(int)position.Y]==3){
                         Board.boardStates.Add(new BoardState(Board.Player.position,(int[,])Board.board.Clone(),(ArrayList)Board.Goals.Clone(),(ArrayList)Board.Boxes.Clone(),(ArrayList)Board.Obsticals.Clone()));
                         position.X++;
+                        SokobonGame.moves++;
                     }
                     else if(Board.board[(int)position.X+1,(int)position.Y]==4||Board.board[(int)position.X+1,(int)position.Y]==5){
                         if(Board.board[(int)position.X+2,(int)position.Y]==0||Board.board[(int)position.X+2,(int)position.Y]==3){
                             Board.boardStates.Add(new BoardState(Board.Player.position,(int[,])Board.board.Clone(),(ArrayList)Board.Goals.Clone(),(ArrayList)Board.Boxes.Clone(),(ArrayList)Board.Obsticals.Clone()));
                            position.X++;
                            //Board.box.X++;
+                           SokobonGame.moves++;
                            Board.Boxes.Remove(new Vector2(position.X,position.Y));
                             Board.Boxes.Add(new Vector2(position.X+1,position.Y));
                         }
@@ -37,11 +39,13 @@ namespace Monogame_Sokobon.TerminalSokobon{
                     if(Board.board[(int)position.X,(int)position.Y+1]==0||Board.board[(int)position.X,(int)position.Y+1]==3){
                         Board.boardStates.Add(new BoardState(Board.Player.position,(int[,])Board.board.Clone(),(ArrayList)Board.Goals.Clone(),(ArrayList)Board.Boxes.Clone(),(ArrayList)Board.Obsticals.Clone()));
                         position.Y++;
+                        SokobonGame.moves++;
                     }
                     else if(Board.board[(int)position.X,(int)position.Y+1]==4||Board.board[(int)position.X,(int)position.Y+1]==5){
                         if(Board.board[(int)position.X,(int)position.Y+2]==0||Board.board[(int)position.X,(int)position.Y+2]==3){
                             Board.boardStates.Add(new BoardState(Board.Player.position,(int[,])Board.board.Clone(),(ArrayList)Board.Goals.Clone(),(ArrayList)Board.Boxes.Clone(),(ArrayList)Board.Obsticals.Clone()));
                             position.Y++;
+                            SokobonGame.moves++;
                             Board.Boxes.Remove(new Vector2(position.X,position.Y));
                             Board.Boxes.Add(new Vector2(position.X,position.Y+1));
                         }                
@@ -51,12 +55,14 @@ namespace Monogame_Sokobon.TerminalSokobon{
                     if(Board.board[(int)position.X-1,(int)position.Y]==0||Board.board[(int)position.X-1,(int)position.Y]==3){
                         Board.boardStates.Add(new BoardState(Board.Player.position,(int[,])Board.board.Clone(),(ArrayList)Board.Goals.Clone(),(ArrayList)Board.Boxes.Clone(),(ArrayList)Board.Obsticals.Clone()));
                         position.X--;
+                        SokobonGame.moves++;
                     }
                     else if(Board.board[(int)position.X-1,(int)position.Y]==4||Board.board[(int)position.X-1,(int)position.Y]==5){
                         if(Board.board[(int)position.X-2,(int)position.Y]==0||Board.board[(int)position.X-2,(int)position.Y]==3){
                             Board.boardStates.Add(new BoardState(Board.Player.position,(int[,])Board.board.Clone(),(ArrayList)Board.Goals.Clone(),(ArrayList)Board.Boxes.Clone(),(ArrayList)Board.Obsticals.Clone()));
                             position.X--;
                             //Board.box.X--;
+                            SokobonGame.moves++;
                             Board.Boxes.Remove(new Vector2(position.X,position.Y));
                             Board.Boxes.Add(new Vector2(position.X-1,position.Y));
                         }                       
@@ -66,12 +72,14 @@ namespace Monogame_Sokobon.TerminalSokobon{
                     if(Board.board[(int)position.X,(int)position.Y-1]==0||Board.board[(int)position.X,(int)position.Y-1]==3){
                         Board.boardStates.Add(new BoardState(Board.Player.position,(int[,])Board.board.Clone(),(ArrayList)Board.Goals.Clone(),(ArrayList)Board.Boxes.Clone(),(ArrayList)Board.Obsticals.Clone()));
                         position.Y--;
+                        SokobonGame.moves++;
                     }
                     else if(Board.board[(int)position.X,(int)position.Y-1]==4||Board.board[(int)position.X,(int)position.Y-1]==5){
                         if(Board.board[(int)position.X,(int)position.Y-2]==0||Board.board[(int)position.X,(int)position.Y-2]==3){
                             Board.boardStates.Add(new BoardState(Board.Player.position,(int[,])Board.board.Clone(),(ArrayList)Board.Goals.Clone(),(ArrayList)Board.Boxes.Clone(),(ArrayList)Board.Obsticals.Clone()));
                             position.Y--;
                             //Board.box.Y--;
+                            SokobonGame.moves++;
                             Board.Boxes.Remove(new Vector2(position.X,position.Y));
                             Board.Boxes.Add(new Vector2(position.X,position.Y-1));
                         }

@@ -1,2 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/rgarr/Documents/Programming/Monogame_Sokobon/Content/Levels/Cringe.json","C:/Users/rgarr/Documents/Programming/Monogame_Sokobon/Content/bin/DesktopGL\Levels/Cringe.json","CopyItem","File",1059,1059,0.0040019
+"/home/rgarr/Programming/C#/Monogame_Sokobon/Content/font.spritefont","/home/rgarr/Programming/C#/Monogame_Sokobon/Content/bin/DesktopGL/font.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0.2270889
+"/home/rgarr/Programming/C#/Monogame_Sokobon/Content/Levels/3x3Level.json","/home/rgarr/Programming/C#/Monogame_Sokobon/Content/bin/DesktopGL/Levels/3x3Level.json","CopyItem","File",732,732,0.0007313
+"/home/rgarr/Programming/C#/Monogame_Sokobon/Content/Levels/Cringe.json","/home/rgarr/Programming/C#/Monogame_Sokobon/Content/bin/DesktopGL/Levels/Cringe.json","CopyItem","File",1032,1032,0.0001697
+"/home/rgarr/Programming/C#/Monogame_Sokobon/Content/Levels/TestLevel.json","/home/rgarr/Programming/C#/Monogame_Sokobon/Content/bin/DesktopGL/Levels/TestLevel.json","CopyItem","File",1827,1827,0.0001474

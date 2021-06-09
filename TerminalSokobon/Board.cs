@@ -70,7 +70,9 @@ namespace Monogame_Sokobon.TerminalSokobon{
             Player.position = last.Player;
             Boxes = last.Boxes;
             Goals = last.Goals;
+            SokobonGame.moves--;
             redraw();
+
 
         }        
 

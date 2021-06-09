@@ -17,8 +17,10 @@ namespace Monogame_Sokobon
         private SpriteBatch _spriteBatch;
 
         private Texture2D emptySquare;
+        private SpriteFont font;
         private int boardSize = 10;
         private int difficulty = 1;
+        public static int moves = 0;
 
         public SokobonGame()
         {
@@ -45,6 +47,7 @@ namespace Monogame_Sokobon
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             emptySquare = new Texture2D(GraphicsDevice,1,1);
+            font = Content.Load<SpriteFont>("font");
             emptySquare.SetData(new[] { Color.White });
             // TODO: use this.Content to load your game content here
         }
@@ -61,6 +64,7 @@ namespace Monogame_Sokobon
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Y)&&!isPressed){
                 Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
+                moves = 0;
                 isPressed = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.W)&&!isPressed){
@@ -189,6 +193,7 @@ namespace Monogame_Sokobon
                 }
             }
             // TODO: Add your drawing code here
+            _spriteBatch.DrawString(font,""+moves,new Vector2(0,0),Color.Purple);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -178,25 +178,41 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                             else if(x == 0){
                                 Empty.Add(new Vector2(y+(f*3),i+(z*3)));
                             }
-                            else if(x != 0){
-                                list.Add(new Entity("Box",y+(f*3),i+(z*3)));
-                            }
+                            //else if(x != 0){
+                            //    list.Add(new Entity("Box",y+(f*3),i+(z*3)));
+                            //}
                         }
                     }   
                 }
             }
             //"Dyedrop" continuity check
             List<Vector2> active = new List<Vector2>();
+            List<Vector2> dormant = new List<Vector2>();
             active.Add(Empty[0]);
-            List<Vector2> dormant = dyeDrop(active,Empty);
+            while(active.Count!=0){
+                List<Vector2> toBeActive = new List<Vector2>();
+                foreach(Vector2 item in active){
+                    if(Empty.Contains(new Vector2(item.X+1,item.Y))&&!dormant.Contains(new Vector2(item.X+1,item.Y))&&!toBeActive.Contains(new Vector2(item.X+1,item.Y))&&!active.Contains(new Vector2(item.X+1,item.Y))){
+                        toBeActive.Add(new Vector2(item.X+1,item.Y));
+                    }
+                    if(Empty.Contains(new Vector2(item.X-1,item.Y))&&!dormant.Contains(new Vector2(item.X-1,item.Y))&&!toBeActive.Contains(new Vector2(item.X-1,item.Y))&&!active.Contains(new Vector2(item.X-1,item.Y))){
+                        toBeActive.Add(new Vector2(item.X-1,item.Y));
+                    }
+                    if(Empty.Contains(new Vector2(item.X,item.Y+1))&&!dormant.Contains(new Vector2(item.X,item.Y+1))&&!toBeActive.Contains(new Vector2(item.X,item.Y+1))&&!active.Contains(new Vector2(item.X,item.Y+1))){
+                        toBeActive.Add(new Vector2(item.X,item.Y+1));
+                    }
+                    if(Empty.Contains(new Vector2(item.X,item.Y-1))&&!dormant.Contains(new Vector2(item.X,item.Y-1))&&!toBeActive.Contains(new Vector2(item.X,item.Y-1))&&!active.Contains(new Vector2(item.X,item.Y-1))){
+                        toBeActive.Add(new Vector2(item.X,item.Y-1));
+                    }
+                    dormant.Add(item);
+                }
+                active.Clear();
+                active = toBeActive;
+            }
             if(Empty.Count != dormant.Count){
                 list = genBoard(width,height);
             }      
             return list;
-        }
-
-        static List<Vector2> dyedrop(List<Vector2> active,List<Vector2> empty){
-            
         }
 
         //|

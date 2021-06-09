@@ -36,6 +36,7 @@ namespace Monogame_Sokobon.TerminalSokobon
                 }
             }
             Board.loadBoard(level.width, level.height, Goals, Boxes, Walls, playerPos);
+            Board.update();
         }
     }
 }

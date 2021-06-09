@@ -18,7 +18,7 @@ namespace Monogame_Sokobon
 
         private Texture2D emptySquare;
         private int boardSize = 10;
-        private int difficulty = 0;
+        private int difficulty = 1;
 
         public SokobonGame()
         {
@@ -38,7 +38,7 @@ namespace Monogame_Sokobon
             String jsonString = File.ReadAllText(fileName);
             LevelData weatherForecast = JsonSerializer.Deserialize<LevelData>(jsonString);
             //Console.WriteLine(weatherForecast);
-            Soko.loadSokoban(new GenerateLevel().createLevel());
+            Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
         }
 
         protected override void LoadContent()
@@ -56,8 +56,11 @@ namespace Monogame_Sokobon
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             else if (Keyboard.GetState().IsKeyDown(Keys.Z)&&!isPressed){
-                Soko.loadSokoban(new GenerateLevel().createLevel());
-                //Board.Undo();
+                Board.Undo();
+                isPressed = true;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Y)&&!isPressed){
+                Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
                 isPressed = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.W)&&!isPressed){
@@ -80,7 +83,7 @@ namespace Monogame_Sokobon
                 Board.update();
                 isPressed = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D1)&&!isPressed){
+            /*else if (Keyboard.GetState().IsKeyDown(Keys.D1)&&!isPressed){
                 //Board size 10*10
                 //boardSize = 10;
                 //Soko.playSokobon(10,10,2);
@@ -130,7 +133,7 @@ namespace Monogame_Sokobon
                 //Board size 100*100
                 //boardSize = 100;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 //Soko.playSokobon(100,100,2);
-            }
+            }*/
             else if(Keyboard.GetState().GetPressedKeyCount()==0&&isPressed){
                 isPressed = false;
                 
@@ -141,7 +144,8 @@ namespace Monogame_Sokobon
             if(!Board.IsRunning){
                 difficulty++;
                 //Exit();
-                Soko.playSokobon(boardSize,boardSize*3,difficulty+2);
+                Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
+                //Soko.playSokobon(boardSize,boardSize*3,difficulty+2);
             }
 
             base.Update(gameTime);

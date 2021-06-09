@@ -4,11 +4,11 @@ using System.Numerics;
 namespace Monogame_Sokobon.LevelThings.Procedural
 {
     public class GenerateLevel{
-        public LevelData createLevel(){
+        public LevelData createLevel(int difficulty){
             Random rand = new Random();
             int width = rand.Next(2,4); //Only bit of code in this whole project that counts starting at 1....
             int height = rand.Next(2,4);//Only bit of code in this whole project that counts starting at 1....
-            return new LevelData(width*3, height*3, new List<LayersDum>(){new LayersDum(genBoard(width, height))});
+            return new LevelData(width*3, height*3, new List<LayersDum>(){new LayersDum(genBoard(width, height, difficulty))});
         }
         
 
@@ -92,9 +92,10 @@ namespace Monogame_Sokobon.LevelThings.Procedural
         
 
 
-        public List<Entity> genBoard(int width, int height){
+        public List<Entity> genBoard(int width, int height, int difficulty){
             List<Entity> list = new List<Entity>();
             List<Vector2> Empty = new List<Vector2>();
+            List<Vector2> Playspace = new List<Vector2>();
             //Dictionary<Vector2,List<Vector2>> previouslyPlaced = new Dictionary<Vector2, List<Vector2>>();
             int [,][,] board = new int[height,width][,];
             for(int f = 0; f < board.GetLength(0); f++){
@@ -170,21 +171,42 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             for(int f = 0; f < board.GetLength(0); f++){
                 for(int z = 0; z < board.GetLength(1); z++){
                     for(int i = 0; i<board[f,z].GetLength(0); i++){
-                        for(int y =0; y<board[f,z].GetLength(1); y++){
+                        for(int y = 0; y<board[f,z].GetLength(1); y++){
                             int x = board[f,z][y,i];
                             if(x == 1){
                                 list.Add(new Entity("Wall",y+(f*3),i+(z*3)));
                             }
-                            else if(x == 0){
+                            else{
                                 Empty.Add(new Vector2(y+(f*3),i+(z*3)));
+                                Playspace.Add(new Vector2(y+(f*3),i+(z*3)));
                             }
-                            //else if(x != 0){
-                            //    list.Add(new Entity("Box",y+(f*3),i+(z*3)));
-                            //}
                         }
                     }   
                 }
             }
+            //foreach(Vector2 item in Playspace){
+                //list.Add(new Entity("Goal",(int)item.X,(int)item.Y));
+            //
+            for(int i = 0; i < difficulty; i++){
+                Random rand = new Random();
+                int indx = rand.Next(Playspace.Count);
+                Vector2 obj = Playspace[indx];
+                list.Add(new Entity("Goal",(int)obj.X,(int)obj.Y));
+                Playspace.Remove(obj);
+                indx = rand.Next(Playspace.Count);
+                obj = Playspace[indx];
+                list.Add(new Entity("Box",(int)obj.X,(int)obj.Y));
+                Playspace.Remove(obj);
+                if(Playspace.Count<3 || i == difficulty-1){
+                    indx = rand.Next(Playspace.Count);
+                    obj = Playspace[indx];
+                    list.Add(new Entity("Player",(int)obj.X,(int)obj.Y));
+                    Playspace.Remove(obj);
+                    break;
+                }
+            }
+
+
             //"Dyedrop" continuity check
             List<Vector2> active = new List<Vector2>();
             List<Vector2> dormant = new List<Vector2>();
@@ -210,8 +232,10 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                 active = toBeActive;
             }
             if(Empty.Count != dormant.Count){
-                list = genBoard(width,height);
-            }      
+                list.Clear();
+                list = genBoard(width,height,difficulty);
+            } 
+
             return list;
         }
 

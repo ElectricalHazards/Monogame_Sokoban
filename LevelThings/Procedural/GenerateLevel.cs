@@ -187,30 +187,18 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             }
             //"Dyedrop" continuity check
             List<Vector2> active = new List<Vector2>();
-            List<Vector2> dormant = new List<Vector2>();
             active.Add(Empty[0]);
-            for(int i = 0; i < active.Count; i++){
-                Vector2 item = active[i];
-                if(Empty.Contains(new Vector2(item.X+1,item.Y))&&!dormant.Contains(new Vector2(item.X+1,item.Y))){
-                    active.Add(new Vector2(item.X+1,item.Y));
-                }
-                if(Empty.Contains(new Vector2(item.X-1,item.Y))&&!dormant.Contains(new Vector2(item.X-1,item.Y))){
-                    active.Add(new Vector2(item.X-1,item.Y));
-                }
-                if(Empty.Contains(new Vector2(item.X,item.Y+1))&&!dormant.Contains(new Vector2(item.X,item.Y+1))){
-                    active.Add(new Vector2(item.X,item.Y+1));
-                }
-                if(Empty.Contains(new Vector2(item.X,item.Y-1))&&!dormant.Contains(new Vector2(item.X,item.Y-1))){
-                    active.Add(new Vector2(item.X,item.Y-1));
-                }
-                dormant.Add(item);
-                active.Remove(item);
-            }      
+            List<Vector2> dormant = dyeDrop(active,Empty);
             if(Empty.Count != dormant.Count){
                 list = genBoard(width,height);
             }      
             return list;
         }
+
+        static List<Vector2> dyedrop(List<Vector2> active,List<Vector2> empty){
+            
+        }
+
         //|
         //|
         //|

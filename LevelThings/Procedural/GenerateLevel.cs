@@ -94,6 +94,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
 
         public List<Entity> genBoard(int width, int height){
             List<Entity> list = new List<Entity>();
+            List<Vector2> Empty = new List<Vector2>();
             //Dictionary<Vector2,List<Vector2>> previouslyPlaced = new Dictionary<Vector2, List<Vector2>>();
             int [,][,] board = new int[height,width][,];
             for(int f = 0; f < board.GetLength(0); f++){
@@ -165,18 +166,43 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                             if(x == 1){
                                 list.Add(new Entity("Wall",y+(f*3),i+(z*3)));
                             }
-                            else if(x!=0){
+                            else if(x == 0){
+                                Empty.Add(new Vector2(y+(f*3),i+(z*3)));
+                            }
+                            else if(x != 0){
                                 list.Add(new Entity("Box",y+(f*3),i+(z*3)));
                             }
-                            //else if(x==4||x==7||x==8){
-                             //   list.Add(new Entity("Goal",y+(f*3),i+(z*3)));
-                            //}
                         }
                     }   
                 }
             }
+            //"Dyedrop" continuity check
+            List<Vector2> active = new List<Vector2>();
+            List<Vector2> dormant = new List<Vector2>();
+            active.Add(Empty[0]);
+            for(int i = 0; i < active.Count; i++){
+                Vector2 item = active[i];
+                if(Empty.Contains(new Vector2(item.X+1,item.Y))&&!dormant.Contains(new Vector2(item.X+1,item.Y))){
+                    active.Add(new Vector2(item.X+1,item.Y));
+                }
+                if(Empty.Contains(new Vector2(item.X-1,item.Y))&&!dormant.Contains(new Vector2(item.X-1,item.Y))){
+                    active.Add(new Vector2(item.X-1,item.Y));
+                }
+                if(Empty.Contains(new Vector2(item.X,item.Y+1))&&!dormant.Contains(new Vector2(item.X,item.Y+1))){
+                    active.Add(new Vector2(item.X,item.Y+1));
+                }
+                if(Empty.Contains(new Vector2(item.X,item.Y-1))&&!dormant.Contains(new Vector2(item.X,item.Y-1))){
+                    active.Add(new Vector2(item.X,item.Y-1));
+                }
+                dormant.Add(item);
+                active.Remove(item);
+            }      
+            if(Empty.Count != dormant.Count){
+                list = genBoard(width,height);
+            }      
             return list;
         }
+
 
         static List<int> doesNedSpaceRight(int[,] matrix){
             List<int> list = new List<int>();

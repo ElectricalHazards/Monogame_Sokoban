@@ -13,7 +13,6 @@
 /home/rgarr/Programming/C#/Monogame_Sokobon/bin/Debug/netcoreapp3.1/runtimes/win-x64/native/soft_oal.dll
 /home/rgarr/Programming/C#/Monogame_Sokobon/bin/Debug/netcoreapp3.1/runtimes/win-x86/native/SDL2.dll
 /home/rgarr/Programming/C#/Monogame_Sokobon/bin/Debug/netcoreapp3.1/runtimes/win-x86/native/soft_oal.dll
-/home/rgarr/Programming/C#/Monogame_Sokobon/obj/Debug/netcoreapp3.1/Monogame_Sokobon.csprojAssemblyReference.cache
 /home/rgarr/Programming/C#/Monogame_Sokobon/obj/Debug/netcoreapp3.1/Monogame_Sokobon.AssemblyInfoInputs.cache
 /home/rgarr/Programming/C#/Monogame_Sokobon/obj/Debug/netcoreapp3.1/Monogame_Sokobon.AssemblyInfo.cs
 /home/rgarr/Programming/C#/Monogame_Sokobon/obj/Debug/netcoreapp3.1/Monogame_Sokobon.csproj.CoreCompileInputs.cache
@@ -23,3 +22,4 @@
 /home/rgarr/Programming/C#/Monogame_Sokobon/obj/Debug/netcoreapp3.1/Monogame_Sokobon.genruntimeconfig.cache
 /home/rgarr/Programming/C#/Monogame_Sokobon/bin/Debug/netcoreapp3.1/Content/Levels/TestLevel.json
 /home/rgarr/Programming/C#/Monogame_Sokobon/bin/Debug/netcoreapp3.1/Content/Levels/3x3Level.json
+/home/rgarr/Programming/C#/Monogame_Sokobon/obj/Debug/netcoreapp3.1/Monogame_Sokobon.csproj.AssemblyReference.cache

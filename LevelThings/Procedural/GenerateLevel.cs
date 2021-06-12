@@ -196,7 +196,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                 //"Dyedrop" continuity check
                 List<Vector2> active = new List<Vector2>();
                 List<Vector2> dormant = new List<Vector2>();
-                if(Playspace.Count < 9){
+                if(Playspace.Count < 27){
                     continue;
                 }
                 active.Add(Empty[0]);
@@ -234,6 +234,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                     while(!(Playspace.Contains(new Vector2(obj.X-1, obj.Y))&&Playspace.Contains(new Vector2(obj.X+1, obj.Y))&&Playspace.Contains(new Vector2(obj.X, obj.Y-1))&&Playspace.Contains(new Vector2(obj.X, obj.Y+1)))){
                         indx = rand.Next(Playspace.Count);
                         obj = Playspace[indx];
+                        break;
                     }
                     list.Add(new Entity("Box",(int)obj.X,(int)obj.Y));
                     Playspace.Remove(obj);
@@ -249,7 +250,6 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             }
             return list;
         }
-
         //|
         //|
         //|
@@ -262,9 +262,6 @@ namespace Monogame_Sokobon.LevelThings.Procedural
         //7 DOWN, LEFT, DOWN&LEFT
         //8 UP, LEFT, UP&LEFT
         //9 DOWN, RIGHT, DOWN&RIGHT
-
-
-
         static int[] getInvalidEdges(int x, int y, int height, int width){
             List<int> pain = new List<int>();
             switch (x)
@@ -313,10 +310,6 @@ namespace Monogame_Sokobon.LevelThings.Procedural
             }
             return pain.ToArray();
         }
-
-
-
-
         static List<int> doesNedSpaceRight(int[,] matrix){
             List<int> list = new List<int>();
             for(int x = 0; x < matrix.GetLength(0); x++){

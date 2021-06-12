@@ -4,10 +4,13 @@ using System.Numerics;
 namespace Monogame_Sokobon.LevelThings.Procedural
 {
     public class GenerateLevel{
+
+        private int wit;
+        private int hit;
         public LevelData createLevel(int difficulty){
             Random rand = new Random();
-            int width = rand.Next(2,4); //Only bit of code in this whole project that counts starting at 1....
-            int height = rand.Next(2,4);//Only bit of code in this whole project that counts starting at 1....
+            int width = rand.Next(2+wit,4+wit); //Only bit of code in this whole project that counts starting at 1....
+            int height = rand.Next(2+hit,4+hit);//Only bit of code in this whole project that counts starting at 1....
             return new LevelData(width*3, height*3, new List<LayersDum>(){new LayersDum(genBoard(width, height, difficulty))});
         }
         
@@ -231,10 +234,23 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                     Playspace.Remove(obj);
                     indx = rand.Next(Playspace.Count);
                     obj = Playspace[indx];
+                    int count = 0;
                     while(!(Playspace.Contains(new Vector2(obj.X-1, obj.Y))&&Playspace.Contains(new Vector2(obj.X+1, obj.Y))&&Playspace.Contains(new Vector2(obj.X, obj.Y-1))&&Playspace.Contains(new Vector2(obj.X, obj.Y+1)))){
                         indx = rand.Next(Playspace.Count);
                         obj = Playspace[indx];
-                        break;
+                        count++;
+                        if(count > 300){
+                            int x = rand.Next(0,2);
+                            if(x == 0){
+                                width++;
+                                wit++;
+                            }
+                            else{
+                                height++;
+                                hit++;
+                            }
+                            goto End;
+                        }
                     }
                     list.Add(new Entity("Box",(int)obj.X,(int)obj.Y));
                     Playspace.Remove(obj);
@@ -247,6 +263,8 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                     }
                 }
                 flag = false;
+                End:
+                    continue;
             }
             return list;
         }

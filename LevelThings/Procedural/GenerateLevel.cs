@@ -93,149 +93,160 @@ namespace Monogame_Sokobon.LevelThings.Procedural
 
 
         public List<Entity> genBoard(int width, int height, int difficulty){
+            bool flag = true;
             List<Entity> list = new List<Entity>();
-            List<Vector2> Empty = new List<Vector2>();
-            List<Vector2> Playspace = new List<Vector2>();
-            //Dictionary<Vector2,List<Vector2>> previouslyPlaced = new Dictionary<Vector2, List<Vector2>>();
-            int [,][,] board = new int[height,width][,];
-            for(int f = 0; f < board.GetLength(0); f++){
-                for(int z = 0; z < board.GetLength(1); z++){
-                    board[f,z] = createOne3x3();
-                }
-            }
-         //2 UP, RIGHT, UP&RIGHT
-         //3 UP
-         //4 LEFT
-         //5 DOWN
-         //6 RIGHT
-         //7 DOWN, LEFT, DOWN&LEFT
-         //8 UP, LEFT, UP&LEFT
-         //9 DOWN, RIGHT, DOWN&RIGHT
-            for(int f = 0; f < board.GetLength(0); f++){
-                for(int z = 0; z < board.GetLength(1); z++){
-                    if(f==0&&z==0){
-                        while(contains(board[f,z],new int[]{2,3,4,7,8})){
-                            board[f,z] = createOne3x3();
-                        }
-                        continue;
+            while(flag){
+                list = new List<Entity>();
+                List<Vector2> Empty = new List<Vector2>();
+                List<Vector2> Playspace = new List<Vector2>();
+                //Dictionary<Vector2,List<Vector2>> previouslyPlaced = new Dictionary<Vector2, List<Vector2>>();
+                int [,][,] board = new int[height,width][,];
+                for(int f = 0; f < board.GetLength(0); f++){
+                    for(int z = 0; z < board.GetLength(1); z++){
+                        board[f,z] = createOne3x3();
                     }
-                    for(int y = 0; y < board[f,z].GetLength(0); y++){
-                        if(y!=0&&y!=2)
+                }
+            //2 UP, RIGHT, UP&RIGHT
+            //3 UP
+            //4 LEFT
+            //5 DOWN
+            //6 RIGHT
+            //7 DOWN, LEFT, DOWN&LEFT
+            //8 UP, LEFT, UP&LEFT
+            //9 DOWN, RIGHT, DOWN&RIGHT
+                for(int f = 0; f < board.GetLength(0); f++){
+                    for(int z = 0; z < board.GetLength(1); z++){
+                        if(f==0&&z==0){
+                            while(contains(board[f,z],new int[]{2,3,4,7,8})){
+                                board[f,z] = createOne3x3();
+                            }
                             continue;
-                        for(int x = 0; x < board[f,z].GetLength(1); x++){
-                            if(x!=0&&x!=2)
+                        }
+                        for(int y = 0; y < board[f,z].GetLength(0); y++){
+                            if(y!=0&&y!=2)
                                 continue;
-                            /*Cleaning up a scarry amount of comments*/
-                            if (false) {
-                                //Check right space == hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))
-                                //Check left space == hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z]))
-                                //Check top space == hasValidSpaceUp(board[f-1,z],doesNeedSPaceUp(board[f,z]))
-                                //Check below space == hasValidSpaceDown(board[f-1,z],doesNeedSPaceDown(board[f,z]))
-                                //Top left corner == Completely ignored
-                                ////Top middle == (f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{8,3,2})
-                                ////Top right == (f==width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{4,7,8,3,2})
-                                ////Mid left == (f==0&&z!=0&&z!=height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,9})
-                                ////Mid mid == (f!=0&&f!=width-1&&z=!0&&z!=height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))
-                                ////Mid right == (f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{2,6,9})
-                                ////Bot left == (f==0&&z==height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,7,9,5})
-                                ////Bot mid == (f!=0&&f!=width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9})
-                                //Bot right == (f==witdh-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9,2,6})
+                            for(int x = 0; x < board[f,z].GetLength(1); x++){
+                                if(x!=0&&x!=2)
+                                    continue;
+                                /*Cleaning up a scarry amount of comments*/
+                                if (false) {
+                                    //Check right space == hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))
+                                    //Check left space == hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z]))
+                                    //Check top space == hasValidSpaceUp(board[f-1,z],doesNeedSPaceUp(board[f,z]))
+                                    //Check below space == hasValidSpaceDown(board[f-1,z],doesNeedSPaceDown(board[f,z]))
+                                    //Top left corner == Completely ignored
+                                    ////Top middle == (f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{8,3,2})
+                                    ////Top right == (f==width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&!contains(board[f,z], new int[]{4,7,8,3,2})
+                                    ////Mid left == (f==0&&z!=0&&z!=height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,9})
+                                    ////Mid mid == (f!=0&&f!=width-1&&z=!0&&z!=height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))
+                                    ////Mid right == (f==width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{2,6,9})
+                                    ////Bot left == (f==0&&z==height-1)&&!(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z])))&&!contains(board[f,z], new int[]{4,8,7,9,5})
+                                    ////Bot mid == (f!=0&&f!=width-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9})
+                                    //Bot right == (f==witdh-1&&z==height-1)&&!((hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))&&(hasValidSpaceUp(board[f,z],doesNeedSPaceUp(board[f,z-1]))&&hasValidSpaceDown(board[f,z-1],doesNeedSPaceDown(board[f,z]))))&&!contains(board[f,z], new int[]{5,7,9,2,6})
 
-                                //while((f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))){//f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
-                            }
+                                    //while((f!=0&&f!=width-1&&z==0)&&!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&&hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z])))){//f!=0&&doesNedSpaceRight(board[f-1,z]).Contains(invert(x))&&board[f,z][y,x]!=0){
+                                }
 
-                            if (f == 0&& z != 0) {
-                                while (!(hasValidSpaceUp(board[f,z-1],doesNeedSPaceUp(board[f,z]))&&hasValidSpaceDown(board[f,z],doesNeedSPaceDown(board[f,z-1])) )|| contains(board[f, z], getInvalidEdges(f, z, width, height))){ 
-                                    board[f, z] = createOne3x3();
+                                if (f == 0&& z != 0) {
+                                    while (!(hasValidSpaceUp(board[f,z-1],doesNeedSPaceUp(board[f,z]))&&hasValidSpaceDown(board[f,z],doesNeedSPaceDown(board[f,z-1])) )|| contains(board[f, z], getInvalidEdges(f, z, width, height))){ 
+                                        board[f, z] = createOne3x3();
+                                    }
                                 }
-                            }
-                            else if (z == 0 && f != 0) {
-                                while (!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&& hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z]))) || contains(board[f, z], getInvalidEdges(f, z, width, height))) {
-                                    board[f, z] = createOne3x3();
+                                else if (z == 0 && f != 0) {
+                                    while (!(hasValidSpaceRight(board[f,z],doesNedSpaceRight(board[f-1,z]))&& hasValidSpaceLeft(board[f-1,z],doesNeedSPaceLeft(board[f,z]))) || contains(board[f, z], getInvalidEdges(f, z, width, height))) {
+                                        board[f, z] = createOne3x3();
+                                    }
                                 }
-                            }
-                            else if (f == 0 && z == 0) {
-                                while (contains(board[f, z], getInvalidEdges(f, z, width, height))) {
-                                    board[f, z] = createOne3x3();
+                                else if (f == 0 && z == 0) {
+                                    while (contains(board[f, z], getInvalidEdges(f, z, width, height))) {
+                                        board[f, z] = createOne3x3();
+                                    }
                                 }
-                            }
-                            else {
-                                while (!(hasValidSpaceUp(board[f, z - 1], doesNeedSPaceUp(board[f, z])) && hasValidSpaceDown(board[f, z], doesNeedSPaceDown(board[f, z - 1]))&& hasValidSpaceRight(board[f, z], doesNedSpaceRight(board[f - 1, z])) && hasValidSpaceLeft(board[f - 1, z], doesNeedSPaceLeft(board[f, z]))) || contains(board[f, z], getInvalidEdges(f, z, width, height))) {
-                                    board[f, z] = createOne3x3();
+                                else {
+                                    while (!(hasValidSpaceUp(board[f, z - 1], doesNeedSPaceUp(board[f, z])) && hasValidSpaceDown(board[f, z], doesNeedSPaceDown(board[f, z - 1]))&& hasValidSpaceRight(board[f, z], doesNedSpaceRight(board[f - 1, z])) && hasValidSpaceLeft(board[f - 1, z], doesNeedSPaceLeft(board[f, z]))) || contains(board[f, z], getInvalidEdges(f, z, width, height))) {
+                                        board[f, z] = createOne3x3();
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            for(int f = 0; f < board.GetLength(0); f++){
-                for(int z = 0; z < board.GetLength(1); z++){
-                    for(int i = 0; i<board[f,z].GetLength(0); i++){
-                        for(int y = 0; y<board[f,z].GetLength(1); y++){
-                            int x = board[f,z][y,i];
-                            if(x == 1){
-                                list.Add(new Entity("Wall",y+(f*3),i+(z*3)));
+                for(int f = 0; f < board.GetLength(0); f++){
+                    for(int z = 0; z < board.GetLength(1); z++){
+                        for(int i = 0; i<board[f,z].GetLength(0); i++){
+                            for(int y = 0; y<board[f,z].GetLength(1); y++){
+                                int x = board[f,z][y,i];
+                                if(x == 1){
+                                    list.Add(new Entity("Wall",y+(f*3),i+(z*3)));
+                                }
+                                else{
+                                    Empty.Add(new Vector2(y+(f*3),i+(z*3)));
+                                    Playspace.Add(new Vector2(y+(f*3),i+(z*3)));
+                                }
                             }
-                            else{
-                                Empty.Add(new Vector2(y+(f*3),i+(z*3)));
-                                Playspace.Add(new Vector2(y+(f*3),i+(z*3)));
-                            }
-                        }
-                    }   
+                        }   
+                    }
                 }
-            }
-            //foreach(Vector2 item in Playspace){
-                //list.Add(new Entity("Goal",(int)item.X,(int)item.Y));
-            //
-            for(int i = 0; i < difficulty; i++){
-                Random rand = new Random();
-                int indx = rand.Next(Playspace.Count);
-                Vector2 obj = Playspace[indx];
-                list.Add(new Entity("Goal",(int)obj.X,(int)obj.Y));
-                Playspace.Remove(obj);
-                indx = rand.Next(Playspace.Count);
-                obj = Playspace[indx];
-                list.Add(new Entity("Box",(int)obj.X,(int)obj.Y));
-                Playspace.Remove(obj);
-                if(Playspace.Count<3 || i == difficulty-1){
+                //foreach(Vector2 item in Playspace){
+                    //list.Add(new Entity("Goal",(int)item.X,(int)item.Y));
+                //
+                
+
+
+                //"Dyedrop" continuity check
+                List<Vector2> active = new List<Vector2>();
+                List<Vector2> dormant = new List<Vector2>();
+                if(Playspace.Count < 9){
+                    continue;
+                }
+                active.Add(Empty[0]);
+                while(active.Count!=0){
+                    List<Vector2> toBeActive = new List<Vector2>();
+                    foreach(Vector2 item in active){
+                        if(Empty.Contains(new Vector2(item.X+1,item.Y))&&!dormant.Contains(new Vector2(item.X+1,item.Y))&&!toBeActive.Contains(new Vector2(item.X+1,item.Y))&&!active.Contains(new Vector2(item.X+1,item.Y))){
+                            toBeActive.Add(new Vector2(item.X+1,item.Y));
+                        }
+                        if(Empty.Contains(new Vector2(item.X-1,item.Y))&&!dormant.Contains(new Vector2(item.X-1,item.Y))&&!toBeActive.Contains(new Vector2(item.X-1,item.Y))&&!active.Contains(new Vector2(item.X-1,item.Y))){
+                            toBeActive.Add(new Vector2(item.X-1,item.Y));
+                        }
+                        if(Empty.Contains(new Vector2(item.X,item.Y+1))&&!dormant.Contains(new Vector2(item.X,item.Y+1))&&!toBeActive.Contains(new Vector2(item.X,item.Y+1))&&!active.Contains(new Vector2(item.X,item.Y+1))){
+                            toBeActive.Add(new Vector2(item.X,item.Y+1));
+                        }
+                        if(Empty.Contains(new Vector2(item.X,item.Y-1))&&!dormant.Contains(new Vector2(item.X,item.Y-1))&&!toBeActive.Contains(new Vector2(item.X,item.Y-1))&&!active.Contains(new Vector2(item.X,item.Y-1))){
+                            toBeActive.Add(new Vector2(item.X,item.Y-1));
+                        }
+                        dormant.Add(item);
+                    }
+                    active.Clear();
+                    active = toBeActive;
+                }
+                if(Empty.Count != dormant.Count){
+                    continue;
+                } 
+                for(int i = 0; i < difficulty; i++){
+                    Random rand = new Random();
+                    int indx = rand.Next(Playspace.Count);
+                    Vector2 obj = Playspace[indx];
+                    list.Add(new Entity("Goal",(int)obj.X,(int)obj.Y));
+                    Playspace.Remove(obj);
                     indx = rand.Next(Playspace.Count);
                     obj = Playspace[indx];
-                    list.Add(new Entity("Player",(int)obj.X,(int)obj.Y));
+                    while(!(Playspace.Contains(new Vector2(obj.X-1, obj.Y))&&Playspace.Contains(new Vector2(obj.X+1, obj.Y))&&Playspace.Contains(new Vector2(obj.X, obj.Y-1))&&Playspace.Contains(new Vector2(obj.X, obj.Y+1)))){
+                        indx = rand.Next(Playspace.Count);
+                        obj = Playspace[indx];
+                    }
+                    list.Add(new Entity("Box",(int)obj.X,(int)obj.Y));
                     Playspace.Remove(obj);
-                    break;
+                    if(Playspace.Count<3 || i == difficulty-1){
+                        indx = rand.Next(Playspace.Count);
+                        obj = Playspace[indx];
+                        list.Add(new Entity("Player",(int)obj.X,(int)obj.Y));
+                        Playspace.Remove(obj);
+                        break;
+                    }
                 }
+                flag = false;
             }
-
-
-            //"Dyedrop" continuity check
-            List<Vector2> active = new List<Vector2>();
-            List<Vector2> dormant = new List<Vector2>();
-            active.Add(Empty[0]);
-            while(active.Count!=0){
-                List<Vector2> toBeActive = new List<Vector2>();
-                foreach(Vector2 item in active){
-                    if(Empty.Contains(new Vector2(item.X+1,item.Y))&&!dormant.Contains(new Vector2(item.X+1,item.Y))&&!toBeActive.Contains(new Vector2(item.X+1,item.Y))&&!active.Contains(new Vector2(item.X+1,item.Y))){
-                        toBeActive.Add(new Vector2(item.X+1,item.Y));
-                    }
-                    if(Empty.Contains(new Vector2(item.X-1,item.Y))&&!dormant.Contains(new Vector2(item.X-1,item.Y))&&!toBeActive.Contains(new Vector2(item.X-1,item.Y))&&!active.Contains(new Vector2(item.X-1,item.Y))){
-                        toBeActive.Add(new Vector2(item.X-1,item.Y));
-                    }
-                    if(Empty.Contains(new Vector2(item.X,item.Y+1))&&!dormant.Contains(new Vector2(item.X,item.Y+1))&&!toBeActive.Contains(new Vector2(item.X,item.Y+1))&&!active.Contains(new Vector2(item.X,item.Y+1))){
-                        toBeActive.Add(new Vector2(item.X,item.Y+1));
-                    }
-                    if(Empty.Contains(new Vector2(item.X,item.Y-1))&&!dormant.Contains(new Vector2(item.X,item.Y-1))&&!toBeActive.Contains(new Vector2(item.X,item.Y-1))&&!active.Contains(new Vector2(item.X,item.Y-1))){
-                        toBeActive.Add(new Vector2(item.X,item.Y-1));
-                    }
-                    dormant.Add(item);
-                }
-                active.Clear();
-                active = toBeActive;
-            }
-            if(Empty.Count != dormant.Count){
-                list.Clear();
-                list = genBoard(width,height,difficulty);
-            } 
-
             return list;
         }
 

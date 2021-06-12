@@ -9,9 +9,15 @@ namespace Monogame_Sokobon.LevelThings.Procedural
         private int hit;
         public LevelData createLevel(int difficulty){
             Random rand = new Random();
-            int width = rand.Next(2+wit,4+wit); //Only bit of code in this whole project that counts starting at 1....
-            int height = rand.Next(2+hit,4+hit);//Only bit of code in this whole project that counts starting at 1....
-            return new LevelData(width*3, height*3, new List<LayersDum>(){new LayersDum(genBoard(width, height, difficulty))});
+            int width = rand.Next(2,4+wit); //Only bit of code in this whole project that counts starting at 1....
+            int height = rand.Next(2,4+hit);
+            List<Entity> entities = genBoard(width, height, difficulty);
+            while(entities == null){
+                width = rand.Next(2,4+wit);
+                height = rand.Next(2,4+hit);
+                entities = genBoard(width, height, difficulty);
+            }
+            return new LevelData(width*3, height*3, new List<LayersDum>(){new LayersDum(entities)});
         }
         
 
@@ -229,42 +235,41 @@ namespace Monogame_Sokobon.LevelThings.Procedural
                 for(int i = 0; i < difficulty; i++){
                     Random rand = new Random();
                     int indx = rand.Next(Playspace.Count);
-                    Vector2 obj = Playspace[indx];
-                    list.Add(new Entity("Goal",(int)obj.X,(int)obj.Y));
-                    Playspace.Remove(obj);
+                    Vector2 loc = Playspace[indx];
+                    list.Add(new Entity("Goal",(int)loc.X,(int)loc.Y));
+                    Playspace.Remove(loc);
                     indx = rand.Next(Playspace.Count);
-                    obj = Playspace[indx];
+                    loc = Playspace[indx];
                     int count = 0;
-                    while(!(Playspace.Contains(new Vector2(obj.X-1, obj.Y))&&Playspace.Contains(new Vector2(obj.X+1, obj.Y))&&Playspace.Contains(new Vector2(obj.X, obj.Y-1))&&Playspace.Contains(new Vector2(obj.X, obj.Y+1)))){
+                    while(!(Playspace.Contains(new Vector2(loc.X-1, loc.Y))&&Playspace.Contains(new Vector2(loc.X+1, loc.Y))&&Playspace.Contains(new Vector2(loc.X, loc.Y-1))&&Playspace.Contains(new Vector2(loc.X, loc.Y+1)))){
                         indx = rand.Next(Playspace.Count);
-                        obj = Playspace[indx];
+                        loc = Playspace[indx];
                         count++;
                         if(count > 300){
                             int x = rand.Next(0,2);
                             if(x == 0){
-                                width++;
                                 wit++;
                             }
                             else{
-                                height++;
                                 hit++;
                             }
-                            goto End;
+                            return null;
+                            //goto End;
                         }
                     }
-                    list.Add(new Entity("Box",(int)obj.X,(int)obj.Y));
-                    Playspace.Remove(obj);
+                    list.Add(new Entity("Box",(int)loc.X,(int)loc.Y));
+                    Playspace.Remove(loc);
                     if(Playspace.Count<3 || i == difficulty-1){
                         indx = rand.Next(Playspace.Count);
-                        obj = Playspace[indx];
-                        list.Add(new Entity("Player",(int)obj.X,(int)obj.Y));
-                        Playspace.Remove(obj);
+                        loc = Playspace[indx];
+                        list.Add(new Entity("Player",(int)loc.X,(int)loc.Y));
+                        Playspace.Remove(loc);
                         break;
                     }
                 }
                 flag = false;
-                End:
-                    continue;
+                //End:
+                //    continue;
             }
             return list;
         }

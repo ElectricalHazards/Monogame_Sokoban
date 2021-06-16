@@ -31,4 +31,4 @@ Most recent release: [1.0](https://github.com/rpg7000/Monogame_Sokobon/releases/
 
 Release History:
 * [1.0](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.0)
-* * First Release
+  * First Release

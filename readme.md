@@ -30,5 +30,5 @@ I am unsure if the current release will work on any platform other than x64
 Most recent release: [1.0](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.0)
 
 Release History:
-[1.0](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.0)
-* First Release
+* [1.0](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.0)
+* * First Release

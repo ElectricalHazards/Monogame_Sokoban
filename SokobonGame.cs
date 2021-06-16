@@ -7,6 +7,9 @@ using Monogame_Sokobon.TerminalSokobon;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Windows.Forms;
+using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
+using Keys = Microsoft.Xna.Framework.Input.Keys;
 
 namespace Monogame_Sokobon {
     public class SokobonGame : Game {
@@ -19,6 +22,10 @@ namespace Monogame_Sokobon {
         private int difficulty = 1;
         public static int moves = 0;
         public static int level = 1;
+
+        public bool customLevel = false;
+
+        private LevelData currentLevel;
 
         public SokobonGame() {
             _graphics = new GraphicsDeviceManager(this);
@@ -34,9 +41,11 @@ namespace Monogame_Sokobon {
             //Console.WriteLine(JsonSerializer.Serialize(new LevelData()));
             String fileName = "Content/Levels/Cringe.json";
             String jsonString = File.ReadAllText(fileName);
-            LevelData weatherForecast = JsonSerializer.Deserialize<LevelData>(jsonString);
+            //LevelData weatherForecast = JsonSerializer.Deserialize<LevelData>(jsonString);
             //Console.WriteLine(weatherForecast);
-            Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
+            currentLevel = new GenerateLevel().createLevel(difficulty);
+            Soko.loadSokoban(currentLevel);
+            customLevel = false;
         }
 
         protected override void LoadContent() {
@@ -57,7 +66,9 @@ namespace Monogame_Sokobon {
                 isPressed = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Y) && !isPressed) {
-                Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
+                currentLevel = new GenerateLevel().createLevel(difficulty);
+                Soko.loadSokoban(currentLevel);
+                customLevel = false;
                 moves = 0;
                 isPressed = true;
             }
@@ -81,57 +92,47 @@ namespace Monogame_Sokobon {
                 Board.update();
                 isPressed = true;
             }
-            /*else if (Keyboard.GetState().IsKeyDown(Keys.D1)&&!isPressed){
-                //Board size 10*10
-                //boardSize = 10;
-                //Soko.playSokobon(10,10,2);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D2)&&!isPressed){
-                //Board size 20*20
-                //boardSize = 20;
-                //Soko.playSokobon(20,20,2);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D3)&&!isPressed){
-                //Board size 30*30
-                //boardSize = 30;
-                //Soko.playSokobon(30,30,2);
+            else if (Keyboard.GetState().IsKeyDown(Keys.F1) && !isPressed) {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog {
+                    InitialDirectory = @"C:\",
+                    Title = "Browse Level File",
 
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+
+                    DefaultExt = "json",
+                    Filter = "json files (*.json)|*.json",
+                    FilterIndex = 2,
+                    RestoreDirectory = true,
+
+                    ReadOnlyChecked = true,
+                    ShowReadOnly = true
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK) {
+                    String jsonString = File.ReadAllText(openFileDialog1.FileName);
+                    LevelData level = JsonSerializer.Deserialize<LevelData>(jsonString);
+                    Soko.loadSokoban(level);
+                }
+                moves = 0;
+                isPressed = true;
+                customLevel = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D4)&&!isPressed){
-                //Board size 40*40
-                //boardSize = 40;
-                //Soko.playSokobon(40,40,2);
+            else if (Keyboard.GetState().IsKeyDown(Keys.F2) && !isPressed) {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.InitialDirectory = @"C:\";      
+                saveFileDialog1.Title = "Save Level Files";
+                //saveFileDialog1.CheckFileExists = true;
+                saveFileDialog1.CheckPathExists = true;
+                saveFileDialog1.DefaultExt = "json";
+                saveFileDialog1.Filter = "json files (*.json)|*.json";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
+                    using (StreamWriter writer = new StreamWriter(saveFileDialog1.FileName)) {
+                        writer.Write(JsonSerializer.Serialize(currentLevel));
+                    }
+                }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D5)&&!isPressed){
-                //Board size 50*50
-                //boardSize = 50;
-                //Soko.playSokobon(50,50,2);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D6)&&!isPressed){
-                //Board size 60*60
-                //boardSize = 60;
-                //Soko.playSokobon(60,60,2);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D7)&&!isPressed){
-                //Board size 70*70
-                //boardSize = 70;
-                //Soko.playSokobon(70,70,2);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D8)&&!isPressed){
-                //Board size 80*80
-                //boardSize = 80;
-                //Soko.playSokobon(80,80,2);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D9)&&!isPressed){
-                //Board size 90*90
-                //boardSize = 90;
-                //Soko.playSokobon(90,90,2);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D0)&&!isPressed){
-                //Board size 100*100
-                //boardSize = 100;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                //Soko.playSokobon(100,100,2);
-            }*/
             else if (Keyboard.GetState().GetPressedKeyCount() == 0 && isPressed) {
                 isPressed = false;
 
@@ -142,7 +143,9 @@ namespace Monogame_Sokobon {
             if (!Board.IsRunning) {
                 difficulty++;
                 //Exit();
-                Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
+                currentLevel = new GenerateLevel().createLevel(difficulty);
+                Soko.loadSokoban(currentLevel);
+                customLevel = false;
                 moves = 0;
                 level++;
                 //Soko.playSokobon(boardSize,boardSize*3,difficulty+2);
@@ -189,7 +192,7 @@ namespace Monogame_Sokobon {
             }
             // TODO: Add your drawing code here
             String Moves = "Moves: " + moves;
-            String Level = "Level: " + level;
+            String Level = (!customLevel?"Level: " + level:"Custom Level");
             _spriteBatch.DrawString(font, Moves, new Vector2(middle.X-((Moves.Length - 2)*6), ((middle.Y - Board.board.GetLength(0) * squareSize / 2 + 0 * squareSize)/2)-6), Color.Black,0f,Vector2.Zero,1f,SpriteEffects.None,0f);
             _spriteBatch.DrawString(font, Level, new Vector2(middle.X - ((Level.Length - 2) * 6), (GraphicsDevice.Viewport.Height-(squareSize/2))), Color.Black);//((middle.Y - Board.board.GetLength(0) * squareSize / 2 + Board.board.GetLength(0) * squareSize) + 6)), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             _spriteBatch.End();

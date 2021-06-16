@@ -4,7 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/home/rgarr/Programming/C#/Monogame_Sokobon/Content/font.spritefont</File>
+    <File>C:/Users/rgarr/Documents/Programming/Monogame_Sokobon/Content/font.spritefont</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

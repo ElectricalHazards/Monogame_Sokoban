@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>/home/rgarr/Programming/C#/Monogame_Sokobon/Content/font.spritefont</SourceFile>
-  <SourceTime>2020-08-10T16:17:28-04:00</SourceTime>
-  <DestFile>/home/rgarr/Programming/C#/Monogame_Sokobon/Content/bin/DesktopGL/Content/font.xnb</DestFile>
-  <DestTime>2021-06-09T15:52:19.6619324-04:00</DestTime>
+  <SourceFile>C:/Users/rgarr/Documents/Programming/Monogame_Sokobon/Content/font.spritefont</SourceFile>
+  <SourceTime>2021-06-14T02:04:59.1718033-04:00</SourceTime>
+  <DestFile>C:/Users/rgarr/Documents/Programming/Monogame_Sokobon/Content/bin/DesktopGL/Content/font.xnb</DestFile>
+  <DestTime>2021-06-14T02:05:13.4714536-04:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

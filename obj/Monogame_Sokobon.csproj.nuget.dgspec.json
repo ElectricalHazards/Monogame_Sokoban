@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/rgarr/Programming/C#/Monogame_Sokobon/Monogame_Sokobon.csproj": {}
+    "C:\\Users\\rgarr\\Documents\\Programming\\Monogame_Sokobon\\Monogame_Sokobon.csproj": {}
   },
   "projects": {
-    "/home/rgarr/Programming/C#/Monogame_Sokobon/Monogame_Sokobon.csproj": {
+    "C:\\Users\\rgarr\\Documents\\Programming\\Monogame_Sokobon\\Monogame_Sokobon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/rgarr/Programming/C#/Monogame_Sokobon/Monogame_Sokobon.csproj",
+        "projectUniqueName": "C:\\Users\\rgarr\\Documents\\Programming\\Monogame_Sokobon\\Monogame_Sokobon.csproj",
         "projectName": "Monogame_Sokobon",
-        "projectPath": "/home/rgarr/Programming/C#/Monogame_Sokobon/Monogame_Sokobon.csproj",
-        "packagesPath": "/home/rgarr/.nuget/packages/",
-        "outputPath": "/home/rgarr/Programming/C#/Monogame_Sokobon/obj/",
+        "projectPath": "C:\\Users\\rgarr\\Documents\\Programming\\Monogame_Sokobon\\Monogame_Sokobon.csproj",
+        "packagesPath": "C:\\Users\\rgarr\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rgarr\\Documents\\Programming\\Monogame_Sokobon\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "/home/rgarr/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\rgarr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -62,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

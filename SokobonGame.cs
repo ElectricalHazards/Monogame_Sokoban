@@ -1,18 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Monogame_Sokobon.TerminalSokobon;
 using Monogame_Sokobon.LevelThings;
 using Monogame_Sokobon.LevelThings.Procedural;
+using Monogame_Sokobon.TerminalSokobon;
 using System;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace Monogame_Sokobon
-{
-    public class SokobonGame : Game
-    {
+namespace Monogame_Sokobon {
+    public class SokobonGame : Game {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -21,16 +18,15 @@ namespace Monogame_Sokobon
         private int boardSize = 10;
         private int difficulty = 1;
         public static int moves = 0;
+        public static int level = 1;
 
-        public SokobonGame()
-        {
+        public SokobonGame() {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
-        protected override void Initialize()
-        {
+        protected override void Initialize() {
             // TODO: Add your initialization logic here
             Window.AllowUserResizing = true;
             //Soko.playSokobon(10,10,2);
@@ -43,46 +39,44 @@ namespace Monogame_Sokobon
             Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
         }
 
-        protected override void LoadContent()
-        {
+        protected override void LoadContent() {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            emptySquare = new Texture2D(GraphicsDevice,1,1);
+            emptySquare = new Texture2D(GraphicsDevice, 1, 1);
             font = Content.Load<SpriteFont>("font");
             emptySquare.SetData(new[] { Color.White });
             // TODO: use this.Content to load your game content here
         }
 
         bool isPressed = false;
-        protected override void Update(GameTime gameTime)
-        {
+        protected override void Update(GameTime gameTime) {
             Resolution.Update(_graphics);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            else if (Keyboard.GetState().IsKeyDown(Keys.Z)&&!isPressed){
+            else if (Keyboard.GetState().IsKeyDown(Keys.Z) && !isPressed) {
                 Board.Undo();
                 isPressed = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Y)&&!isPressed){
+            else if (Keyboard.GetState().IsKeyDown(Keys.Y) && !isPressed) {
                 Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
                 moves = 0;
                 isPressed = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.W)&&!isPressed){
+            else if (Keyboard.GetState().IsKeyDown(Keys.W) && !isPressed) {
                 Board.Player.Move(0);
                 Board.update();
                 isPressed = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.A)&&!isPressed){
+            else if (Keyboard.GetState().IsKeyDown(Keys.A) && !isPressed) {
                 Board.Player.Move(1);
                 Board.update();
                 isPressed = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S)&&!isPressed){
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) && !isPressed) {
                 Board.Player.Move(2);
                 Board.update();
                 isPressed = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D)&&!isPressed){
+            else if (Keyboard.GetState().IsKeyDown(Keys.D) && !isPressed) {
                 Board.Player.Move(3);
                 Board.update();
                 isPressed = true;
@@ -138,62 +132,66 @@ namespace Monogame_Sokobon
                 //boardSize = 100;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 //Soko.playSokobon(100,100,2);
             }*/
-            else if(Keyboard.GetState().GetPressedKeyCount()==0&&isPressed){
+            else if (Keyboard.GetState().GetPressedKeyCount() == 0 && isPressed) {
                 isPressed = false;
-                
+
             }
-            
+
 
             // TODO: Add your update logic here
-            if(!Board.IsRunning){
+            if (!Board.IsRunning) {
                 difficulty++;
                 //Exit();
                 Soko.loadSokoban(new GenerateLevel().createLevel(difficulty));
+                moves = 0;
+                level++;
                 //Soko.playSokobon(boardSize,boardSize*3,difficulty+2);
             }
 
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
-        {
+        protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.White);
             //_spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.Scale);
             _spriteBatch.Begin();
-            int squareSize = (int)Math.Min(GraphicsDevice.Viewport.Width/(Board.board.GetLength(1)+1),GraphicsDevice.Viewport.Height/(Board.board.GetLength(0)+1));
-            Vector2 middle = new Vector2(GraphicsDevice.Viewport.Width/2,GraphicsDevice.Viewport.Height/2);
-            for(int row = 0; row < Board.board.GetLength(1); row ++){
-                for(int col = 0; col < Board.board.GetLength(0); col++){
-                    int middlXOffset = Board.board.GetLength(1)*squareSize/2;
-                    int middlYOffset = Board.board.GetLength(0)*squareSize/2;
+            int squareSize = (int)Math.Min(GraphicsDevice.Viewport.Width / (Board.board.GetLength(1) + 1), GraphicsDevice.Viewport.Height / (Board.board.GetLength(0) + 1));
+            Vector2 middle = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+            for (int row = 0; row < Board.board.GetLength(1); row++) {
+                for (int col = 0; col < Board.board.GetLength(0); col++) {
+                    int middlXOffset = Board.board.GetLength(1) * squareSize / 2;
+                    int middlYOffset = Board.board.GetLength(0) * squareSize / 2;
                     int startX = (int)middle.X - middlXOffset + row * squareSize;
                     int startY = (int)middle.Y - middlYOffset + col * squareSize;
-                    _spriteBatch.Draw(emptySquare, new Rectangle(startX,startY,squareSize,squareSize), Color.Black);
-                    switch(Board.board[col,row]){
-                       case 0:
-                           _spriteBatch.Draw(emptySquare, new Rectangle(startX,startY,squareSize-2,squareSize-2), Color.White);
+                    _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize, squareSize), Color.Black);
+                    switch (Board.board[col, row]) {
+                        case 0:
+                            _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.White);
                             break;
-                       case 1:
-                       case 6:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(startX,startY,squareSize-2,squareSize-2), Color.Black);
+                        case 1:
+                        case 6:
+                            _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Black);
                             break;
-                       case 2:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(startX,startY,squareSize-2,squareSize-2), Color.Red);
+                        case 2:
+                            _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Red);
                             break;
-                       case 3:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(startX,startY,squareSize-2,squareSize-2), Color.Green);
+                        case 3:
+                            _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Green);
                             break;
-                       case 4:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(+startX,startY,squareSize-2,squareSize-2), Color.Brown);
+                        case 4:
+                            _spriteBatch.Draw(emptySquare, new Rectangle(+startX, startY, squareSize - 2, squareSize - 2), Color.Brown);
                             break;
-                       case 5:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(+startX,startY,squareSize-2,squareSize-2), Color.Gold);
+                        case 5:
+                            _spriteBatch.Draw(emptySquare, new Rectangle(+startX, startY, squareSize - 2, squareSize - 2), Color.Gold);
                             break;
                     }
                 }
             }
             // TODO: Add your drawing code here
-            _spriteBatch.DrawString(font,""+moves,new Vector2(0,0),Color.Purple);
+            String Moves = "Moves: " + moves;
+            String Level = "Level: " + level;
+            _spriteBatch.DrawString(font, Moves, new Vector2(middle.X-((Moves.Length - 2)*6), ((middle.Y - Board.board.GetLength(0) * squareSize / 2 + 0 * squareSize)/2)-6), Color.Black,0f,Vector2.Zero,1f,SpriteEffects.None,0f);
+            _spriteBatch.DrawString(font, Level, new Vector2(middle.X - ((Level.Length - 2)*6), ((middle.Y - Board.board.GetLength(0) * squareSize / 2 + Board.board.GetLength(0) * squareSize) + 6)), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -203,8 +201,7 @@ namespace Monogame_Sokobon
 /// <summary>
 /// Resolution
 /// </summary>
-public static class Resolution
-{
+public static class Resolution {
     private static Vector3 ScalingFactor;
     private static int _preferredBackBufferWidth;
     private static int _preferredBackBufferHeight;
@@ -234,8 +231,7 @@ public static class Resolution
     /// </summary>
     /// <param name="device">The device.</param>
     /// <exception cref="System.ArgumentNullException">device</exception>
-    public static void Update(GraphicsDeviceManager device)
-    {
+    public static void Update(GraphicsDeviceManager device) {
         if (device == null) throw new ArgumentNullException("device");
 
         //Calculate ScalingFactor
@@ -261,8 +257,7 @@ public static class Resolution
     /// <para>Example: 1920x1080 applied to 1280x800: new Vector2(1.5f, 1,35f)</para>
     /// </summary>
     /// <returns></returns>
-    public static Vector2 DetermineDrawScaling()
-    {
+    public static Vector2 DetermineDrawScaling() {
         var x = _preferredBackBufferWidth / VirtualScreen.X;
         var y = _preferredBackBufferHeight / VirtualScreen.Y;
         return new Vector2(x, y);

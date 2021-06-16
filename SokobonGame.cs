@@ -116,11 +116,14 @@ namespace Monogame_Sokobon {
                     if (schema.Validate(jsonString).Count == 0) { 
                         LevelData level = JsonSerializer.Deserialize<LevelData>(jsonString);
                         Soko.loadSokoban(level);
-                    }else{
+                        moves = 0;
+                        customLevel = true;
+                    }
+                    else{
                         MessageBox.Show("Error Loading Level: " + openFileDialog1.FileName+". ");
                     }
                 }
-                moves = 0;
+                
                 isPressed = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.F2) && !isPressed) {

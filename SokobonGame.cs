@@ -152,9 +152,10 @@ namespace Monogame_Sokobon {
             if (!Board.IsRunning) {
                 //Exit();
                 moves = 0;
-                if(!customLevel)
+                if (!customLevel) {
                     difficulty++;
                     level++;
+                }
                 currentLevel = new GenerateLevel().createLevel(difficulty);
                 Soko.loadSokoban(currentLevel);
                 customLevel = false;

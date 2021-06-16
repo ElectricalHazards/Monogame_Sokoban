@@ -20,9 +20,9 @@ Controls:
 
 .NET Core desktop is required download at https://dotnet.microsoft.com/download/dotnet/5.0/runtime, direct download links are below:
 
-    x64
-    x86
-    arm64
+* [x64](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-5.0.7-windows-x64-installer)
+* [x86](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-5.0.7-windows-x86-installer)
+* [arm64](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-5.0.7-windows-arm64-installer)
 
 I am unsure if the current release will work on any platform other than x64
 

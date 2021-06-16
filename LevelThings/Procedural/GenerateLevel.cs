@@ -106,7 +106,10 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
             while (flag) {
                 list = new List<Entity>();
                 List<Vector2> Empty = new List<Vector2>();
+                List<Vector2> EmptyPlayspace = new List<Vector2>();
                 List<Vector2> Playspace = new List<Vector2>();
+                List<Vector2> Goals = new List<Vector2>();
+//                List<Vector2> Playspace = new List<Vector2>();
                 //Dictionary<Vector2,List<Vector2>> previouslyPlaced = new Dictionary<Vector2, List<Vector2>>();
                 int[,][,] board = new int[height, width][,];
                 for (int f = 0; f < board.GetLength(0); f++) {
@@ -189,13 +192,14 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                                 }
                                 else {
                                     Empty.Add(new Vector2(y + (f * 3), i + (z * 3)));
+                                    EmptyPlayspace.Add(new Vector2(y + (f * 3), i + (z * 3)));
                                     Playspace.Add(new Vector2(y + (f * 3), i + (z * 3)));
                                 }
                             }
                         }
                     }
                 }
-                //foreach(Vector2 item in Playspace){
+                //foreach(Vector2 item in EmptyPlayspace){
                 //list.Add(new Entity("Goal",(int)item.X,(int)item.Y));
                 //
 
@@ -204,7 +208,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                 //"Dyedrop" continuity check
                 List<Vector2> active = new List<Vector2>();
                 List<Vector2> dormant = new List<Vector2>();
-                if (Playspace.Count < 27) {
+                if (EmptyPlayspace.Count < 27) {
                     continue;
                 }
                 active.Add(Empty[0]);
@@ -233,16 +237,17 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                 }
                 for (int i = 0; i < difficulty; i++) {
                     Random rand = new Random();
-                    int indx = rand.Next(Playspace.Count);
-                    Vector2 loc = Playspace[indx];
+                    int indx = rand.Next(EmptyPlayspace.Count);
+                    Vector2 loc = EmptyPlayspace[indx];
                     list.Add(new Entity("Goal", (int)loc.X, (int)loc.Y));
-                    Playspace.Remove(loc);
-                    indx = rand.Next(Playspace.Count);
-                    loc = Playspace[indx];
+                    Goals.Add(loc);
+                    EmptyPlayspace.Remove(loc);
+                    indx = rand.Next(EmptyPlayspace.Count);
+                    loc = EmptyPlayspace[indx];
                     int count = 0;
-                    while (!(Playspace.Contains(new Vector2(loc.X - 1, loc.Y)) && Playspace.Contains(new Vector2(loc.X + 1, loc.Y)) && Playspace.Contains(new Vector2(loc.X, loc.Y - 1)) && Playspace.Contains(new Vector2(loc.X, loc.Y + 1)))) {
-                        indx = rand.Next(Playspace.Count);
-                        loc = Playspace[indx];
+                    while (!(EmptyPlayspace.Contains(new Vector2(loc.X - 1, loc.Y)) && EmptyPlayspace.Contains(new Vector2(loc.X + 1, loc.Y)) && EmptyPlayspace.Contains(new Vector2(loc.X, loc.Y - 1)) && EmptyPlayspace.Contains(new Vector2(loc.X, loc.Y + 1)))) {
+                        indx = rand.Next(EmptyPlayspace.Count);
+                        loc = EmptyPlayspace[indx];
                         count++;
                         if (count > 300) {
                             int x = rand.Next(0, 2);
@@ -257,15 +262,28 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                         }
                     }
                     list.Add(new Entity("Box", (int)loc.X, (int)loc.Y));
-                    Playspace.Remove(loc);
-                    if (Playspace.Count < 3 || i == difficulty - 1) {
-                        indx = rand.Next(Playspace.Count);
-                        loc = Playspace[indx];
+                    EmptyPlayspace.Remove(loc);
+                    if (EmptyPlayspace.Count < 3 || i == difficulty - 1) {
+                        indx = rand.Next(EmptyPlayspace.Count);
+                        loc = EmptyPlayspace[indx];
                         list.Add(new Entity("Player", (int)loc.X, (int)loc.Y));
-                        Playspace.Remove(loc);
+                        EmptyPlayspace.Remove(loc);
                         break;
                     }
                 }
+
+
+                //Solvability Check
+
+                //Check Goal accessability
+                foreach(Vector2 item in Goals) {
+                    //(Playspace.Contains()&& Playspace.Contains())
+                    if ((Playspace.Contains(new Vector2(item.X+1,item.Y)) && Playspace.Contains(new Vector2(item.X+2, item.Y))) || (Playspace.Contains(new Vector2(item.X - 1, item.Y)) && Playspace.Contains(new Vector2(item.X - 2, item.Y))) || (Playspace.Contains(new Vector2(item.X, item.Y+1)) && Playspace.Contains(new Vector2(item.X, item.Y+2))) || (Playspace.Contains(new Vector2(item.X, item.Y-1)) && Playspace.Contains(new Vector2(item.X, item.Y-2)))) {
+                        continue;
+                    }
+                    return null;
+                }
+
                 flag = false;
                 //End:
                 //    continue;

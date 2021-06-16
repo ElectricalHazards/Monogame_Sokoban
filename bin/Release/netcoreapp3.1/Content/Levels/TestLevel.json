@@ -1,0 +1,36 @@
+{
+  "ogmoVersion": "3.4.0",
+  "width": 10,
+  "height": 10,
+  "offsetX": 0,
+  "offsetY": 0,
+  "layers": [
+    {
+      "name": "Game",
+      "_eid": "27973635",
+      "offsetX": 0,
+      "offsetY": 0,
+      "gridCellWidth": 1,
+      "gridCellHeight": 1,
+      "gridCellsX": 10,
+      "gridCellsY": 10,
+      "entities": [
+        {"name": "Goal", "id": 0, "_eid": "27976916", "x": 8, "y": 3, "originX": 0, "originY": 0},
+        {"name": "Goal", "id": 1, "_eid": "27976916", "x": 9, "y": 2, "originX": 0, "originY": 0},
+        {"name": "Goal", "id": 2, "_eid": "27976916", "x": 8, "y": 2, "originX": 0, "originY": 0},
+        {"name": "Goal", "id": 3, "_eid": "27976916", "x": 9, "y": 3, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 5, "_eid": "27981779", "x": 9, "y": 1, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 6, "_eid": "27981779", "x": 8, "y": 1, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 7, "_eid": "27981779", "x": 6, "y": 1, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 8, "_eid": "27981779", "x": 7, "y": 1, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 9, "_eid": "27981779", "x": 7, "y": 2, "originX": 0, "originY": 0},
+        {"name": "Wall", "id": 10, "_eid": "27981779", "x": 7, "y": 3, "originX": 0, "originY": 0},
+        {"name": "Box", "id": 11, "_eid": "27978789", "x": 3, "y": 4, "originX": 0, "originY": 0},
+        {"name": "Box", "id": 12, "_eid": "27978789", "x": 5, "y": 6, "originX": 0, "originY": 0},
+        {"name": "Box", "id": 13, "_eid": "27978789", "x": 2, "y": 2, "originX": 0, "originY": 0},
+        {"name": "Box", "id": 14, "_eid": "27978789", "x": 2, "y": 6, "originX": 0, "originY": 0},
+        {"name": "Player", "id": 15, "_eid": "28006793", "x": 7, "y": 7, "originX": 0, "originY": 0}
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Monogame_Sokobon.LevelThings {
     public class LevelData {
@@ -9,8 +10,11 @@ namespace Monogame_Sokobon.LevelThings {
         }
         public LevelData() { }
         //public Vector2 BoardSize {get; set;}
+        [Required]
         public int width { get; set; }
+        [Required]
         public int height { get; set; }
+        [Required]
         public IList<LayersDum> layers { get; set; }
         //public ArrayList Goals {get; set;}
         //public ArrayList Boxes {get; set;}
@@ -22,6 +26,7 @@ namespace Monogame_Sokobon.LevelThings {
             this.entities = entities;
         }
         public LayersDum() { }
+        [Required]
         public IList<Entity> entities { get; set; }
     }
     public class Entity {
@@ -31,8 +36,11 @@ namespace Monogame_Sokobon.LevelThings {
             this.y = y;
         }
         public Entity() { }
+        [Required]
         public string name { get; set; }
+        [Required]
         public int x { get; set; }
+        [Required]
         public int y { get; set; }
     }
 }

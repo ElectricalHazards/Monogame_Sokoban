@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Windows.Forms;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
+using NJsonSchema;
 
 namespace Monogame_Sokobon {
     public class SokobonGame : Game {
@@ -108,14 +109,19 @@ namespace Monogame_Sokobon {
                     ReadOnlyChecked = true,
                     ShowReadOnly = true
                 };
+
                 if (openFileDialog1.ShowDialog() == DialogResult.OK) {
                     String jsonString = File.ReadAllText(openFileDialog1.FileName);
-                    LevelData level = JsonSerializer.Deserialize<LevelData>(jsonString);
-                    Soko.loadSokoban(level);
+                    JsonSchema schema = JsonSchema.FromType<LevelData>();
+                    if (schema.Validate(jsonString).Count == 0) { 
+                        LevelData level = JsonSerializer.Deserialize<LevelData>(jsonString);
+                        Soko.loadSokoban(level);
+                    }else{
+                        MessageBox.Show("Error Loading Level: " + openFileDialog1.FileName+". ");
+                    }
                 }
                 moves = 0;
                 isPressed = true;
-                customLevel = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.F2) && !isPressed) {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -143,11 +149,12 @@ namespace Monogame_Sokobon {
             if (!Board.IsRunning) {
                 difficulty++;
                 //Exit();
+                moves = 0;
+                if(!customLevel)
+                    level++;
                 currentLevel = new GenerateLevel().createLevel(difficulty);
                 Soko.loadSokoban(currentLevel);
                 customLevel = false;
-                moves = 0;
-                level++;
                 //Soko.playSokobon(boardSize,boardSize*3,difficulty+2);
             }
 

@@ -191,7 +191,7 @@ namespace Monogame_Sokobon {
             String Moves = "Moves: " + moves;
             String Level = "Level: " + level;
             _spriteBatch.DrawString(font, Moves, new Vector2(middle.X-((Moves.Length - 2)*6), ((middle.Y - Board.board.GetLength(0) * squareSize / 2 + 0 * squareSize)/2)-6), Color.Black,0f,Vector2.Zero,1f,SpriteEffects.None,0f);
-            _spriteBatch.DrawString(font, Level, new Vector2(middle.X - ((Level.Length - 2)*6), ((middle.Y - Board.board.GetLength(0) * squareSize / 2 + Board.board.GetLength(0) * squareSize) + 6)), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, Level, new Vector2(middle.X - ((Level.Length - 2) * 6), (GraphicsDevice.Viewport.Height-(squareSize/2))), Color.Black);//((middle.Y - Board.board.GetLength(0) * squareSize / 2 + Board.board.GetLength(0) * squareSize) + 6)), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

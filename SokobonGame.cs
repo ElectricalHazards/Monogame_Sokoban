@@ -35,6 +35,8 @@ namespace Monogame_Sokobon {
         public static LevelType levelType = LevelType.Generated;
 
 
+        public static bool flag = true;
+
         private LevelData currentLevel;
 
         public SokobonGame() {
@@ -185,7 +187,7 @@ namespace Monogame_Sokobon {
         }
 
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(flag?Color.Blue:Color.White);
             //_spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.Scale);
             _spriteBatch.Begin();
             int squareSize = (int)Math.Min(GraphicsDevice.Viewport.Width / (Board.board.GetLength(1) + 1), GraphicsDevice.Viewport.Height / (Board.board.GetLength(0) + 1));

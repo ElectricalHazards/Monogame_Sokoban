@@ -2,6 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 namespace Monogame_Sokobon.LevelThings.Procedural {
+
+    public enum Side {
+        Up,
+        Down,
+        Left,
+        Right
+    }
     public class GenerateLevel {
 
         private int wit;
@@ -11,6 +18,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
             int width = rand.Next(2, 4 + wit); //Only bit of code in this whole project that counts starting at 1....
             int height = rand.Next(2, 4 + hit);
             List<Entity> entities = null;//genBoard(width, height, difficulty);
+            SokobonGame.flag = true;
             while (entities == null) {
                 width = rand.Next(2, 4 + wit);
                 height = rand.Next(2, 4 + hit);
@@ -109,6 +117,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                 List<Vector2> EmptyPlayspace = new List<Vector2>();
                 List<Vector2> Playspace = new List<Vector2>();
                 List<Vector2> Goals = new List<Vector2>();
+                List<Vector2> Boxes = new List<Vector2>();
 //                List<Vector2> Playspace = new List<Vector2>();
                 //Dictionary<Vector2,List<Vector2>> previouslyPlaced = new Dictionary<Vector2, List<Vector2>>();
                 int[,][,] board = new int[height, width][,];
@@ -261,6 +270,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                             //goto End;
                         }
                     }
+                    Boxes.Add(loc);
                     list.Add(new Entity("Box", (int)loc.X, (int)loc.Y));
                     EmptyPlayspace.Remove(loc);
                     if (EmptyPlayspace.Count < 3 || i == difficulty - 1) {
@@ -283,6 +293,22 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                     }
                     return null;
                 }
+                //Check Box Movabilitiy
+                foreach (Vector2 item in Boxes) {
+                    //(Playspace.Contains()&& Playspace.Contains())
+                    if ((EmptyPlayspace.Contains(new Vector2(item.X - 1, item.Y)) && EmptyPlayspace.Contains(new Vector2(item.X + 1, item.Y))) ||(Playspace.Contains(new Vector2(item.X, item.Y + 1)) && Playspace.Contains(new Vector2(item.X, item.Y - 1)))) {
+                        continue;
+                    }
+                    return null;
+                }
+                //Better than the one two above
+                foreach(Vector2 item in Goals) {
+                    foreach(Side side in getOpenSides(item, EmptyPlayspace)) {
+                        if(scan(EmptyPlayspace, (int)item.X, (int)item.Y, side)) {
+                            SokobonGame.flag = false;
+                        }
+                    }
+                }
 
                 flag = false;
                 //End:
@@ -290,6 +316,106 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
             }
             return list;
         }
+
+
+        private bool scan(List<Vector2> OpenSpace, int x, int y, Side side) {
+            switch (side) {
+                case Side.Up:
+                    if(OpenSpace.Contains(new Vector2(x, y - 1))) {
+                        if (OpenSpace.Contains(new Vector2(x - 1, y - 1))&&(OpenSpace.Contains(new Vector2(x, y - 2))&& OpenSpace.Contains(new Vector2(x - 1, y - 2)))) {
+                            return true;
+                        }
+                        else if(OpenSpace.Contains(new Vector2(x + 1, y - 1)) && (OpenSpace.Contains(new Vector2(x, y - 2)) && OpenSpace.Contains(new Vector2(x + 1, y - 2)))) {
+                            return true;
+                        }
+                        else {
+                            return false || scan(OpenSpace, x, y - 1, side);
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                    break;
+                case Side.Down:
+                    if (OpenSpace.Contains(new Vector2(x, y + 1))) {
+                        if (OpenSpace.Contains(new Vector2(x - 1, y + 1)) && (OpenSpace.Contains(new Vector2(x, y + 2)) && OpenSpace.Contains(new Vector2(x - 1, y + 2)))) {
+                            return true;
+                        }
+                        else if (OpenSpace.Contains(new Vector2(x + 1, y + 1)) && (OpenSpace.Contains(new Vector2(x, y + 2)) && OpenSpace.Contains(new Vector2(x + 1, y + 2)))) {
+                            return true;
+                        }
+                        else {
+                            return false || scan(OpenSpace, x, y + 1, side);
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                    break;
+                case Side.Left:
+                    if (OpenSpace.Contains(new Vector2(x - 1, y))) {
+                        if (OpenSpace.Contains(new Vector2(x - 1, y - 1)) && (OpenSpace.Contains(new Vector2(x - 2, y + 1)) && OpenSpace.Contains(new Vector2(x - 2, y)))) {
+                            return true;
+                        }
+                        else if (OpenSpace.Contains(new Vector2(x - 1, y + 1)) && (OpenSpace.Contains(new Vector2(x - 2, y - 1)) && OpenSpace.Contains(new Vector2(x - 2, y)))) {
+                            return true;
+                        }
+                        else {
+                            return false || scan(OpenSpace, x - 1, y, side);
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                    break;
+                case Side.Right:
+                    if (OpenSpace.Contains(new Vector2(x + 1, y))) {
+                        if (OpenSpace.Contains(new Vector2(x + 1, y - 1)) && (OpenSpace.Contains(new Vector2(x + 2, y + 1)) && OpenSpace.Contains(new Vector2(x + 2, y)))) {
+                            return true;
+                        }
+                        else if (OpenSpace.Contains(new Vector2(x + 1, y + 1)) && (OpenSpace.Contains(new Vector2(x + 2, y - 1)) && OpenSpace.Contains(new Vector2(x + 2, y)))) {
+                            return true;
+                        }
+                        else {
+                            return false || scan(OpenSpace, x + 1, y, side);
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                    break;
+            }
+            return false;
+        }
+
+
+
+
+
+
+        private List<Side> getOpenSides(Vector2 obj, List<Vector2> OpenSpace) {
+            List<Side> list = new List<Side>();
+            if (OpenSpace.Contains(new Vector2(obj.X + 1, obj.Y))) {
+                list.Add(Side.Right);
+            }
+            if (OpenSpace.Contains(new Vector2(obj.X - 1, obj.Y))) {
+                list.Add(Side.Left);
+            }
+            if (OpenSpace.Contains(new Vector2(obj.X, obj.Y + 1))) {
+                list.Add(Side.Down);
+            }
+            if (OpenSpace.Contains(new Vector2(obj.X, obj.Y - 1))) {
+                list.Add(Side.Up);
+            }
+            return list;
+        }
+
+
+
+
+
+
+
         //|
         //|
         //|
@@ -309,7 +435,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                 pain.Add(7);
                 pain.Add(8);
             }
-            else if (x == width) {
+            else if (x == width-1) {
                 pain.Add(2);
                 pain.Add(6);
                 pain.Add(9);
@@ -319,7 +445,7 @@ namespace Monogame_Sokobon.LevelThings.Procedural {
                 pain.Add(3);
                 pain.Add(8);
             }
-            else if (y == height) { 
+            else if (y == height-1) { 
                 pain.Add(5);
                 pain.Add(7);
                 pain.Add(9);

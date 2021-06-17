@@ -11,8 +11,15 @@ using System.Windows.Forms;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using NJsonSchema;
+using Microsoft.VisualBasic;
 
 namespace Monogame_Sokobon {
+
+    public enum LevelType {
+        Generated,
+        Custom,
+        External
+    }
     public class SokobonGame : Game {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -24,7 +31,9 @@ namespace Monogame_Sokobon {
         public static int moves = 0;
         public static int level = 1;
 
-        public bool customLevel = false;
+        public static bool isLevelEditor = false;
+        public static LevelType levelType = LevelType.Generated;
+
 
         private LevelData currentLevel;
 
@@ -46,7 +55,7 @@ namespace Monogame_Sokobon {
             //Console.WriteLine(weatherForecast);
             currentLevel = new GenerateLevel().createLevel(difficulty);
             Soko.loadSokoban(currentLevel);
-            customLevel = false;
+            levelType = LevelType.Generated;
         }
 
         protected override void LoadContent() {
@@ -59,109 +68,119 @@ namespace Monogame_Sokobon {
 
         bool isPressed = false;
         protected override void Update(GameTime gameTime) {
-            Resolution.Update(_graphics);
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            else if (Keyboard.GetState().IsKeyDown(Keys.Z) && !isPressed) {
-                Board.Undo();
-                isPressed = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Y) && !isPressed) {
-                currentLevel = new GenerateLevel().createLevel(difficulty);
-                Soko.loadSokoban(currentLevel);
-                customLevel = false;
-                moves = 0;
-                isPressed = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.W) && !isPressed) {
-                Board.Player.Move(0);
-                Board.update();
-                isPressed = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.A) && !isPressed) {
-                Board.Player.Move(1);
-                Board.update();
-                isPressed = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S) && !isPressed) {
-                Board.Player.Move(2);
-                Board.update();
-                isPressed = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D) && !isPressed) {
-                Board.Player.Move(3);
-                Board.update();
-                isPressed = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.F1) && !isPressed) {
-                OpenFileDialog openFileDialog1 = new OpenFileDialog {
-                    InitialDirectory = @"C:\",
-                    Title = "Browse Level File",
+            if (!isLevelEditor) {
+                Resolution.Update(_graphics);
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+                else if (Keyboard.GetState().IsKeyDown(Keys.Z) && !isPressed) {
+                    Board.Undo();
+                    isPressed = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.Y) && !isPressed) {
+                    currentLevel = new GenerateLevel().createLevel(difficulty);
+                    Soko.loadSokoban(currentLevel);
+                    levelType = LevelType.Generated;
+                    moves = 0;
+                    isPressed = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.R) && !isPressed) {
+                    Board.Reset();
+                    isPressed = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.W) && !isPressed) {
+                    Board.Player.Move(0);
+                    Board.update();
+                    isPressed = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.A) && !isPressed) {
+                    Board.Player.Move(1);
+                    Board.update();
+                    isPressed = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.S) && !isPressed) {
+                    Board.Player.Move(2);
+                    Board.update();
+                    isPressed = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.D) && !isPressed) {
+                    Board.Player.Move(3);
+                    Board.update();
+                    isPressed = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.F1) && !isPressed) {
+                    OpenFileDialog openFileDialog1 = new OpenFileDialog {
+                        InitialDirectory = @"C:\",
+                        Title = "Browse Level File",
 
-                    CheckFileExists = true,
-                    CheckPathExists = true,
+                        CheckFileExists = true,
+                        CheckPathExists = true,
 
-                    DefaultExt = "json",
-                    Filter = "json files (*.json)|*.json",
-                    FilterIndex = 2,
-                    RestoreDirectory = true,
+                        DefaultExt = "json",
+                        Filter = "json files (*.json)|*.json",
+                        FilterIndex = 2,
+                        RestoreDirectory = true,
 
-                    ReadOnlyChecked = true,
-                    ShowReadOnly = true
-                };
+                        ReadOnlyChecked = true,
+                        ShowReadOnly = true
+                    };
 
-                if (openFileDialog1.ShowDialog() == DialogResult.OK) {
-                    String jsonString = File.ReadAllText(openFileDialog1.FileName);
-                    JsonSchema schema = JsonSchema.FromType<LevelData>();
-                    if (schema.Validate(jsonString).Count == 0) { 
-                        LevelData level = JsonSerializer.Deserialize<LevelData>(jsonString);
-                        Soko.loadSokoban(level);
-                        moves = 0;
-                        customLevel = true;
+                    if (openFileDialog1.ShowDialog() == DialogResult.OK) {
+                        String jsonString = File.ReadAllText(openFileDialog1.FileName);
+                        JsonSchema schema = JsonSchema.FromType<LevelData>();
+                        if (schema.Validate(jsonString).Count == 0) {
+                            LevelData level = JsonSerializer.Deserialize<LevelData>(jsonString);
+                            Soko.loadSokoban(level);
+                            moves = 0;
+                            levelType = LevelType.External;
+                        }
+                        else {
+                            MessageBox.Show("Error Loading Level: " + openFileDialog1.FileName + ". ");
+                        }
                     }
-                    else{
-                        MessageBox.Show("Error Loading Level: " + openFileDialog1.FileName+". ");
+
+                    isPressed = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.F2) && !isPressed) {
+                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                    saveFileDialog1.InitialDirectory = @"C:\";
+                    saveFileDialog1.Title = "Save Level Files";
+                    //saveFileDialog1.CheckFileExists = true;
+                    saveFileDialog1.CheckPathExists = true;
+                    saveFileDialog1.DefaultExt = "json";
+                    saveFileDialog1.Filter = "json files (*.json)|*.json";
+                    saveFileDialog1.FilterIndex = 2;
+                    saveFileDialog1.RestoreDirectory = true;
+                    if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
+                        using (StreamWriter writer = new StreamWriter(saveFileDialog1.FileName)) {
+                            writer.Write(JsonSerializer.Serialize(currentLevel));
+                        }
                     }
                 }
-                
-                isPressed = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.F2) && !isPressed) {
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.InitialDirectory = @"C:\";      
-                saveFileDialog1.Title = "Save Level Files";
-                //saveFileDialog1.CheckFileExists = true;
-                saveFileDialog1.CheckPathExists = true;
-                saveFileDialog1.DefaultExt = "json";
-                saveFileDialog1.Filter = "json files (*.json)|*.json";
-                saveFileDialog1.FilterIndex = 2;
-                saveFileDialog1.RestoreDirectory = true;
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
-                    using (StreamWriter writer = new StreamWriter(saveFileDialog1.FileName)) {
-                        writer.Write(JsonSerializer.Serialize(currentLevel));
+                else if (Keyboard.GetState().IsKeyDown(Keys.F3) && !isPressed) {
+                    isLevelEditor = true;
+                    LevelEditor levelEditor = new LevelEditor();
+                    levelEditor.Show();
+                }
+                else if (Keyboard.GetState().GetPressedKeyCount() == 0 && isPressed) {
+                    isPressed = false;
+
+                }
+
+
+                // TODO: Add your update logic here
+                if (!Board.IsRunning) {
+                    //Exit();
+                    moves = 0;
+                    if (levelType == LevelType.Generated) {
+                        difficulty++;
+                        level++;
                     }
+                    currentLevel = new GenerateLevel().createLevel(difficulty);
+                    Soko.loadSokoban(currentLevel);
+                    levelType = LevelType.Generated;
+                    //Soko.playSokobon(boardSize,boardSize*3,difficulty+2);
                 }
             }
-            else if (Keyboard.GetState().GetPressedKeyCount() == 0 && isPressed) {
-                isPressed = false;
-
-            }
-
-
-            // TODO: Add your update logic here
-            if (!Board.IsRunning) {
-                //Exit();
-                moves = 0;
-                if (!customLevel) {
-                    difficulty++;
-                    level++;
-                }
-                currentLevel = new GenerateLevel().createLevel(difficulty);
-                Soko.loadSokoban(currentLevel);
-                customLevel = false;
-                //Soko.playSokobon(boardSize,boardSize*3,difficulty+2);
-            }
-
             base.Update(gameTime);
         }
 
@@ -171,39 +190,41 @@ namespace Monogame_Sokobon {
             _spriteBatch.Begin();
             int squareSize = (int)Math.Min(GraphicsDevice.Viewport.Width / (Board.board.GetLength(1) + 1), GraphicsDevice.Viewport.Height / (Board.board.GetLength(0) + 1));
             Vector2 middle = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
-            for (int row = 0; row < Board.board.GetLength(1); row++) {
-                for (int col = 0; col < Board.board.GetLength(0); col++) {
-                    int middlXOffset = Board.board.GetLength(1) * squareSize / 2;
-                    int middlYOffset = Board.board.GetLength(0) * squareSize / 2;
-                    int startX = (int)middle.X - middlXOffset + row * squareSize;
-                    int startY = (int)middle.Y - middlYOffset + col * squareSize;
-                    _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize, squareSize), Color.Black);
-                    switch (Board.board[col, row]) {
-                        case 0:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.White);
-                            break;
-                        case 1:
-                        case 6:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Black);
-                            break;
-                        case 2:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Red);
-                            break;
-                        case 3:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Green);
-                            break;
-                        case 4:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(+startX, startY, squareSize - 2, squareSize - 2), Color.Brown);
-                            break;
-                        case 5:
-                            _spriteBatch.Draw(emptySquare, new Rectangle(+startX, startY, squareSize - 2, squareSize - 2), Color.Gold);
-                            break;
+            if (!isLevelEditor) {
+                for (int row = 0; row < Board.board.GetLength(1); row++) {
+                    for (int col = 0; col < Board.board.GetLength(0); col++) {
+                        int middlXOffset = Board.board.GetLength(1) * squareSize / 2;
+                        int middlYOffset = Board.board.GetLength(0) * squareSize / 2;
+                        int startX = (int)middle.X - middlXOffset + row * squareSize;
+                        int startY = (int)middle.Y - middlYOffset + col * squareSize;
+                        _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize, squareSize), Color.Black);
+                        switch (Board.board[col, row]) {
+                            case 0:
+                                _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.White);
+                                break;
+                            case 1:
+                            case 6:
+                                _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Black);
+                                break;
+                            case 2:
+                                _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Red);
+                                break;
+                            case 3:
+                                _spriteBatch.Draw(emptySquare, new Rectangle(startX, startY, squareSize - 2, squareSize - 2), Color.Green);
+                                break;
+                            case 4:
+                                _spriteBatch.Draw(emptySquare, new Rectangle(+startX, startY, squareSize - 2, squareSize - 2), Color.Brown);
+                                break;
+                            case 5:
+                                _spriteBatch.Draw(emptySquare, new Rectangle(+startX, startY, squareSize - 2, squareSize - 2), Color.Gold);
+                                break;
+                        }
                     }
                 }
             }
             // TODO: Add your drawing code here
-            String Moves = "Moves: " + moves;
-            String Level = (!customLevel?"Level: " + level:"Custom Level");
+            String Moves = (isLevelEditor?"LEVEL EDITOR":"Moves: " + moves);
+            String Level = (isLevelEditor?"LEVEL EDITOR":(levelType == LevelType.Generated?"Level: " + level:(levelType == LevelType.Custom?"Custom Level":"External Level")));
             _spriteBatch.DrawString(font, Moves, new Vector2(middle.X-((Moves.Length - 2)*6), ((middle.Y - Board.board.GetLength(0) * squareSize / 2 + 0 * squareSize)/2)-6), Color.Black,0f,Vector2.Zero,1f,SpriteEffects.None,0f);
             _spriteBatch.DrawString(font, Level, new Vector2(middle.X - ((Level.Length - 2) * 6), (GraphicsDevice.Viewport.Height-(squareSize/2))), Color.Black);//((middle.Y - Board.board.GetLength(0) * squareSize / 2 + Board.board.GetLength(0) * squareSize) + 6)), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             _spriteBatch.End();

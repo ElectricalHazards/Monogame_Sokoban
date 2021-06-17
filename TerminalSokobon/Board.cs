@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Monogame_Sokobon.LevelThings;
 
 namespace Monogame_Sokobon.TerminalSokobon {
 
@@ -71,6 +72,18 @@ namespace Monogame_Sokobon.TerminalSokobon {
             redraw();
 
 
+        }
+        public static void Reset() {
+            if (boardStates.Count == 0)
+                return;
+            BoardState last = (BoardState)boardStates[0];
+            boardStates.Clear();
+            board = last.Board;
+            Player.position = last.Player;
+            Boxes = last.Boxes;
+            Goals = last.Goals;
+            SokobonGame.moves = 0;
+            redraw();
         }
 
         private static void makeEdges() {

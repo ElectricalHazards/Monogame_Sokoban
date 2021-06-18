@@ -31,3 +31,6 @@ C:\Users\rgarr\Documents\Programming\Monogame_Sokobon\bin\Release\netcoreapp3.1\
 C:\Users\rgarr\Documents\Programming\Monogame_Sokobon\bin\Release\netcoreapp3.1\NJsonSchema.dll
 C:\Users\rgarr\Documents\Programming\Monogame_Sokobon\obj\Release\netcoreapp3.1\Monogame_Sokobon.LevelEditor.resources
 C:\Users\rgarr\Documents\Programming\Monogame_Sokobon\obj\Release\netcoreapp3.1\Monogame_Sokobon.csproj.GenerateResource.cache
+C:\Users\rgarr\Documents\Programming\Monogame_Sokobon\bin\Release\netcoreapp3.1\LICENSE
+C:\Users\rgarr\Documents\Programming\Monogame_Sokobon\bin\Release\netcoreapp3.1\LICENSE.txt
+C:\Users\rgarr\Documents\Programming\Monogame_Sokobon\bin\Release\netcoreapp3.1\readme.md

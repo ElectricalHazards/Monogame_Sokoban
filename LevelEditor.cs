@@ -225,6 +225,7 @@ namespace Monogame_Sokobon {
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            entities.Clear();
             drawButtons();
         }
 

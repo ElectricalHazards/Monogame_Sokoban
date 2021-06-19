@@ -30,14 +30,16 @@ Controls:
 
 I am unsure if the current release will work on any platform other than x64
 
-To create custom levels you will need the ogmo editor and the .ogmo file below, a better and built-in level editor is planned but currently not being worked on.
+Custom levels can still be made using the .ogmo file and ogmoeditor however the built-in level editor, accessible by pressing F3 is specifically designed for this game and as such is often faster to use.
 
 
 
-Most recent release: [1.1](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.1)
+Most recent release: [1.2](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.2)
 
 Release History:
 * [1.0](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.0)
   * First Release
 * [1.1](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.1)
   * Added runtime level loading and saving
+* [1.2](https://github.com/rpg7000/Monogame_Sokobon/releases/tag/v1.2)
+  * Added a built in level editor and working on proceduraly generated level solvability checks

@@ -1,6 +1,6 @@
 
 
-Impossible levels are still possible as I have not implemented a check to see if a level is solvable, for now press Y to generate a new level of equal difficulty
+Impossible levels are still possible as I have not implemented a full check to see if a level is solvable, for now press Y to generate a new level of equal difficulty
 
 Controls:
 
